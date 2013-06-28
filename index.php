@@ -1,4 +1,5 @@
 <?php 
+
     include('scripts/init.php');
     include('scripts/file_import.php');
     
@@ -124,11 +125,25 @@
                         <?php include('scripts/imported_files.php'); ?>
                     </div>
                 <div class="modal-footer">
-                    <input type="submit" class="btn btn-primary" id="importfilebtn" value="Import File">
+                    <input type="submit" class="btn btn-primary" id="importfilebtn" onclick="$('#import').modal('hide');$('#progress').modal('show');" value="Import File">
                     </form>
                     <button class="btn btn-danger" data-dismiss="modal" aria-hidden="true" id="closeimportbtn">Close</button>
                 </div>
             </div>
+            <div class="modal hide fade" id="progress" tabindex="-1" role="dialog" aria-labelledby="otherModalLabel" aria-hidden="true">
+                <div class="modal-header">
+                     <h3 id="otherModalLabel">File Being Imported</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="progress progress-striped active">
+                        <div class="bar" id="fimport" style="width:100%"></div>
+                    </div>
+                    
+                </div>
+                <div class="modal-footer">
+                    &nbsp;
+                </div>
+            </div>        
             <div class="tab-pane" id="manifests">
                     
             </div> 
@@ -146,6 +161,7 @@
 
         </div>
         </div>
+
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
         <script src="js/bootstrap.min.js"></script>
         <script src="js/bootstrap-datepicker.js"></script>
@@ -163,7 +179,7 @@
         $(document).ready(function(){
             if (<?php echo $fsz; ?>>0)
                {
-                    $('#notification-area').append('<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>File Import</strong> <?php echo $fff; ?> was imported!</div>');
+                  $('#notification-area').append('<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>File Import</strong> <?php echo $fff; ?></div>');
                }
            });
         $('input[id=file2import]').change(function(){
@@ -181,6 +197,7 @@
              //wtf?  How did that happen?   
             }
         });
+
          </script>
     </body>
 </html>
