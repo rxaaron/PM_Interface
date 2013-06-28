@@ -132,7 +132,7 @@
             </div>
             <div class="modal hide fade" id="progress" tabindex="-1" role="dialog" aria-labelledby="otherModalLabel" aria-hidden="true">
                 <div class="modal-header">
-                     <h3 id="otherModalLabel">File Being Imported</h3>
+                     <h3 id="otherModalLabel">Please Wait.  File Being Imported</h3>
                 </div>
                 <div class="modal-body">
                     <div class="progress progress-striped active">
