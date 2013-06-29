@@ -171,7 +171,7 @@
             $('.datepicker').datepicker({
                 autoclose: true
             });
-        $('#closeimportbtn').click({type: 'error', title: 'File Import', text: 'was cancelled'},addnotification);
+        $('#closeimportbtn').click({type: 'error', title: 'File Import', text: 'was cancelled', id: 'cncl'},addnotification);
         $('#CutOff').timepicker({
             minuteStep: 30,
             showMeridian: false

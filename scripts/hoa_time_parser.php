@@ -14,40 +14,64 @@
                     
                     while($res1=$select1->fetch_object()){
                         if(($ts = strtotime($res1->Time1))!=false){
-                            $sth1->execute(array(':code'=>$res1->HOACode, ':time'=>date("H:i",$ts)));
+                            if ($res1->Time1!="."){
+                                $sth1->execute(array(':code'=>$res1->HOACode, ':time'=>date("Hi",$ts)));
+                            }       
                         }
                         if(($ts = strtotime($res1->Time2))!=false){
-                            $sth1->execute(array(':code'=>$res1->HOACode, ':time'=>date("H:i",$ts)));
+                            if ($res1->Time2!="."){
+                                $sth1->execute(array(':code'=>$res1->HOACode, ':time'=>date("Hi",$ts)));
+                            }
                         }
                         if(($ts = strtotime($res1->Time3))!=false){
-                            $sth1->execute(array(':code'=>$res1->HOACode, ':time'=>date("H:i",$ts)));
+                            if ($res1->Time3!="."){
+                                $sth1->execute(array(':code'=>$res1->HOACode, ':time'=>date("Hi",$ts)));
+                            }
                         }
                         if(($ts = strtotime($res1->Time4))!=false){
-                            $sth1->execute(array(':code'=>$res1->HOACode, ':time'=>date("H:i",$ts)));
+                            if ($res1->Time4!="."){
+                                $sth1->execute(array(':code'=>$res1->HOACode, ':time'=>date("Hi",$ts)));
+                            }
                         }
                         if(($ts = strtotime($res1->Time5))!=false){
-                            $sth1->execute(array(':code'=>$res1->HOACode, ':time'=>date("H:i",$ts)));
+                            if ($res1->Time5!="."){
+                                $sth1->execute(array(':code'=>$res1->HOACode, ':time'=>date("Hi",$ts)));
+                            }
                         }
                         if(($ts = strtotime($res1->Time6))!=false){
-                            $sth1->execute(array(':code'=>$res1->HOACode, ':time'=>date("H:i",$ts)));
+                            if ($res1->Time6!="."){
+                                $sth1->execute(array(':code'=>$res1->HOACode, ':time'=>date("Hi",$ts)));
+                            }
                         }
                         if(($ts = strtotime($res1->Time7))!=false){
-                            $sth1->execute(array(':code'=>$res1->HOACode, ':time'=>date("H:i",$ts)));
+                            if ($res1->Time7!="."){
+                                $sth1->execute(array(':code'=>$res1->HOACode, ':time'=>date("Hi",$ts)));
+                            }
                         }
                         if(($ts = strtotime($res1->Time8))!=false){
-                            $sth1->execute(array(':code'=>$res1->HOACode, ':time'=>date("H:i",$ts)));
+                            if ($res1->Time8!="."){
+                                $sth1->execute(array(':code'=>$res1->HOACode, ':time'=>date("Hi",$ts)));
+                            }
                         }
                         if(($ts = strtotime($res1->Time9))!=false){
-                            $sth1->execute(array(':code'=>$res1->HOACode, ':time'=>date("H:i",$ts)));
+                            if ($res1->Time9!="."){
+                                $sth1->execute(array(':code'=>$res1->HOACode, ':time'=>date("Hi",$ts)));
+                            }
                         }
                         if(($ts = strtotime($res1->Time10))!=false){
-                            $sth1->execute(array(':code'=>$res1->HOACode, ':time'=>date("H:i",$ts)));
+                            if ($res1->Time10!="."){
+                                $sth1->execute(array(':code'=>$res1->HOACode, ':time'=>date("Hi",$ts)));
+                            }
                         }
                         if(($ts = strtotime($res1->Time11))!=false){
-                            $sth1->execute(array(':code'=>$res1->HOACode, ':time'=>date("H:i",$ts)));
+                            if ($res1->Time11!="."){
+                                $sth1->execute(array(':code'=>$res1->HOACode, ':time'=>date("Hi",$ts)));
+                            }
                         }
                         if(($ts = strtotime($res1->Time12))!=false){
-                            $sth1->execute(array(':code'=>$res1->HOACode, ':time'=>date("H:i",$ts)));
+                            if ($res1->Time12!="."){
+                                $sth1->execute(array(':code'=>$res1->HOACode, ':time'=>date("Hi",$ts)));
+                            }
                         }
                     }
                 }else{

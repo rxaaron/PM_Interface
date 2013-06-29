@@ -8,8 +8,9 @@
        $ff=str_replace("C:\\fakepath\\","",$_POST['fakefilefield']);
 
       $file = $_FILES['file2import'][tmp_name]; 
-    $handle = fopen($file,"r"); 
+      $handle = fopen($file,"r"); 
        
+      $timechange=false;
        $firstrow=true;
        $table_id="";
        $script="";
@@ -45,6 +46,9 @@
        }while ($data = fgetcsv($handle,1000,","));
     
        $updateimport=$db->query("UPDATE Import SET UpdateTime='".date("m/d/y h:i a")."' WHERE Table_ID=".$table_id.";");
+       if($timechange){
+         include_once('hoa_time_parser.php');  
+       }
     }
     
 ?>
