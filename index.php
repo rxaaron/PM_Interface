@@ -132,7 +132,7 @@
             </div>
             <div class="modal hide fade" id="progress" tabindex="-1" role="dialog" aria-labelledby="otherModalLabel" aria-hidden="true">
                 <div class="modal-header">
-                     <h3 id="otherModalLabel">Please Wait.  File Being Imported</h3>
+                     <h3 id="otherModalLabel">Please Wait.  File Being Imported.</h3>
                 </div>
                 <div class="modal-body">
                     <div class="progress progress-striped active">
@@ -179,7 +179,9 @@
         $(document).ready(function(){
             if (<?php echo $fsz; ?>>0)
                {
-                  $('#notification-area').append('<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>File Import</strong> <?php echo $fff; ?></div>');
+                  $('#notification-area').append('<div id="success" class="alert alert-success"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>File Import</strong> <?php echo $fff; ?></div>');
+                  $('#success').alert();
+                  setTimeout(function(){$('#success').fadeOut(500,function(){$('#success').alert('close')})},5000);
                }
            });
         $('input[id=file2import]').change(function(){

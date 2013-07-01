@@ -14,6 +14,8 @@
        $firstrow=true;
        $table_id="";
        $script="";
+
+       
        do{
           
            if($data[0]){
@@ -32,6 +34,12 @@
                            $script=$tres->Script;
                            $table_id=$tres->Table_ID;
                            $firstrow=false;
+                           if($table_id===6){
+                               $clear_sig=$db->query("DELETE FROM Sig;");
+                           }
+                           if($table_id===5){
+                               $clear_rx=$db->query("DELETE FROM ".$_SESSION["prefix"]."_Rx;");
+                           }
                            
                        }
                        
@@ -49,6 +57,7 @@
        if($timechange){
          include_once('hoa_time_parser.php');  
        }
+       fclose($handle);
     }
     
 ?>
