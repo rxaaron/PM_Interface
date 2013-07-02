@@ -1,6 +1,6 @@
 <?php
     
-    $slct=$db->query("SELECT HOA_ID FROM HOA WHERE HOA_Code='".$data[0]."';");
+    $slct=$db->query("SELECT HOA_ID FROM HOA WHERE HOA_Code='".$data[0]."' AND HOA_Group='".$data[1]."' AND HOA_Wing='".$data[2]."';");
     
     if($slct->num_rows!=0){
         
