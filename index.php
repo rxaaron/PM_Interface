@@ -57,8 +57,11 @@
                         <div class="input-append date datepicker" data-date-format="mm/dd/yyyy"><input type="text" id="StopDate" autocomplete="off" name="stopdate"><span class="add-on"><i class="icon-calendar"></i></span></div>
                         <label>Cut Off Time</label>
                         <div class="input-append pad4 bootstrap-timepicker"><input id="CutOff" type="text" autocomplete="off" value="01:00" name="cutoff"><span class="add-on"><i class="icon-time"></i></span></div>
-                        <div class="pad4" style="margin-bottom:10px;">
+                        <div class="pad4">
                         <label class="radio inline"><input type="radio" id="cycle" name="cutofftype" value="cycle" checked="checked">Cycle</label><label class="radio inline"><input type="radio" id="daily" name="cutofftype" value="daily">Daily</label><label class="radio inline"><input type="radio" id="abx" name="cutofftype" value="abx">Antibiotic</label>
+                        </div>
+                        <div class="pad4" style="margin-bottom:10px;">
+                            <button class="btn btn-warning" data-toggle="modal" data-target="#admintimes">Remove Administration Times</button>
                         </div>
                         <label>File Name</label>
                         <div class="input-append pad4"><input type="text" id="FileName" placeholder="File Name" autcomplete="off" name="filename"><span class="add-on"><i class="icon-file"></i></span></div>
@@ -82,13 +85,6 @@
                                 </div>
                             </div>                           
                         </div>
-                        <div class="tab-pane" id="admintimes">
-                            <div class="row-fluid">
-                                <div class="span12" id="admindata">
-                                    
-                                </div>
-                            </div>                            
-                        </div>
                         <div class="tab-pane" id="startstop">
                             <div class="row-fluid">
                                 <div class="span12" id="ssdata">
@@ -103,7 +99,6 @@
                         <ul class="nav nav-tabs">
                             <li class="active"><a href="#export" data-toggle="tab"><button class="btn">Orders Ready<br>For Export</button></a></li>
                             <li class><a href="#list" data-toggle="tab"><button class="btn">View Listed<br>Orders</button></a></li>
-                            <li class><a href="#admintimes" data-toggle="tab"><button class="btn">Administration<br>Times</button></a></li>
                             <li class><a href="#startstop" data-toggle="tab"><button class="btn">Start / Stop<br>Dates</button></a></li>
                         </ul>
                     </div>
@@ -122,28 +117,31 @@
                         <div class="input-append">
                             <input id="fakefilefield" name="fakefilefield" class="input-xlarge" autocomplete="off" placeholder="File Name" type="text"><span class="add-on"><i class="icon-search" id="browsefile" onclick="$('input[id=file2import]').click();"></i></span>
                         </div>
+                        <div class="progress progress-striped active">
+                            <div class="bar" id="imprtbar" style="width: 0%;"></div>
+                        </div>
                         <?php include('scripts/imported_files.php'); ?>
                     </div>
                 <div class="modal-footer">
-                    <input type="submit" class="btn btn-primary" id="importfilebtn" onclick="$('#import').modal('hide');$('#progress').modal('show');" value="Import File">
+                    <input type="submit" class="btn btn-primary" id="importfilebtn" value="Import File">
                     </form>
                     <button class="btn btn-danger" data-dismiss="modal" aria-hidden="true" id="closeimportbtn">Close</button>
                 </div>
             </div>
-            <div class="modal hide fade" id="progress" tabindex="-1" role="dialog" aria-labelledby="otherModalLabel" aria-hidden="true">
+                <div class="modal hide fade" id="admintimes" tabindex="-1" role="dialog" aria-labelledby="timesmodallabel" aria-hidden="true">
                 <div class="modal-header">
-                     <h3 id="otherModalLabel">Please Wait.  File Being Imported.</h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                     <h3 id="timesmodallabel">Remove Admin Times</h3>
                 </div>
                 <div class="modal-body">
-                    <div class="progress progress-striped active">
-                        <div class="bar" id="fimport" style="width:100%"></div>
+                    <div id="admintable">
+                        
                     </div>
-                    
                 </div>
                 <div class="modal-footer">
-                    &nbsp;
+                    <button class="btn btn-danger" data-dismiss="modal" aria-hidden="true" id="closeimportbtn">Close</button>
                 </div>
-            </div>        
+            </div> 
             <div class="tab-pane" id="manifests">
                     
             </div> 
@@ -172,9 +170,22 @@
                 autoclose: true
             });
         $('#closeimportbtn').click({type: 'error', title: 'File Import', text: 'was cancelled', id: 'cncl'},addnotification);
+        $('#importfilebtn').click(function(){
+            $('#imprtbar').width('100%');
+            $('#imprtbar').text("Importing File...");
+        });
+        
         $('#CutOff').timepicker({
             minuteStep: 30,
             showMeridian: false
+        });
+        $(document).ready(function(){
+           $.ajax({
+              url: "scripts/fill_listed_orders.php",
+              dataType: "html"
+           }).done(function(html){
+             $('#listdata').append(html);  
+           }); 
         });
         $(document).ready(function(){
             if (<?php echo $fsz; ?>>0)

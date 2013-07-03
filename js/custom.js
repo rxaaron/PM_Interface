@@ -3,4 +3,3 @@ function addnotification(event){
         $('#' + event.data.id).alert();
         setTimeout(function(){$('#' + event.data.id).fadeOut(500,function(){$('#' + event.data.id).alert('close')})},5000);
         };
-

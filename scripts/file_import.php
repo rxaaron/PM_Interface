@@ -34,13 +34,15 @@
                            $script=$tres->Script;
                            $table_id=$tres->Table_ID;
                            $firstrow=false;
-                           if($table_id===6){
-                               $clear_sig=$db->query("DELETE FROM Sig;");
+                           if($table_id==6){
+                               $clear_sig=$db->query("TRUNCATE Sig;");
                            }
-                           if($table_id===5){
-                               $clear_rx=$db->query("DELETE FROM ".$_SESSION["prefix"]."_Rx;");
+                           if($table_id==5){
+                               $clear_rx=$db->query("TRUNCATE ".$_SESSION["prefix"]."_Rx;");
                            }
-                           
+                           if($table_id==1){
+                               $clear_drug=$db->query("TRUNCATE Drug;");
+                           }
                        }
                        
                    }
@@ -51,7 +53,7 @@
                }
                
            }
-       }while ($data = fgetcsv($handle,1000,","));
+       }while ($data = fgetcsv($handle,1000,','));
     
        $updateimport=$db->query("UPDATE Import SET UpdateTime='".date("m/d/y h:i a")."' WHERE Table_ID=".$table_id.";");
        if($timechange){

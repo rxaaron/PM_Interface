@@ -1,8 +1,8 @@
 <?php
-
+    session_start();
     //initialize all the good stuff.  $db is mysqli, $dbh is DBO.
     include_once('dbconn.php');
-    session_start();
+    
     
     //check for User Prefix variable. $_SERVER['REMOTE_ADDR'];
     if(!isset($_SESSION["prefix"])){
