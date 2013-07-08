@@ -49,7 +49,7 @@
             <div class="tab-content">
             <div class="tab-pane active" id="create">
             <div class="row-fluid">
-                <div class="span4">
+                <div class="span3">
                     <form autocomplete="off" method="POST" action="">
                         <label>Start Date</label>
                         <div class="input-append date datepicker" data-date-format="mm/dd/yyyy"><input type="text" id="StartDate" autocomplete="off" value="<?php echo date("m/d/Y"); ?>" name="startdate"><span class="add-on"><i class="icon-calendar"></i></span></div>
@@ -69,7 +69,7 @@
                         <div class="pad4 btn-group"><button type="submit" class="btn btn-primary wide85" name="action" value="process">Process</button><button type="submit" class="btn btn-success wide85" name="action" value="export">Export</button><button type="submit" class="btn btn-danger wide85" name="action" value="clear" onClick="return confirm('Are you sure you want to clear the Export Table?');">Clear</button></div>
                     </form>
                 </div>
-                <div class="span6">
+                <div class="span8">
                     <div class="tab-content">
                         <div class="tab-pane active" id="export">
                             <div class="row-fluid">
@@ -81,7 +81,9 @@
                         <div class="tab-pane" id="list">
                              <div class="row-fluid">
                                 <div class="span12" id="listdata">
-                                    
+                                    <div id="listdata2" class="listdiv">
+                                        
+                                    </div>
                                 </div>
                             </div>                           
                         </div>
@@ -94,7 +96,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="span2">
+                <div class="span1">
                     <div class="tabbable tabs-right">
                         <ul class="nav nav-tabs">
                             <li class="active"><a href="#export" data-toggle="tab"><button class="btn">Orders Ready<br>For Export</button></a></li>
@@ -180,14 +182,10 @@
             showMeridian: false
         });
         $(document).ready(function(){
-           $.ajax({
-              url: "scripts/fill_listed_orders.php",
-              dataType: "html"
-           }).done(function(html){
-             $('#listdata').append(html);  
-           }); 
-        });
-        $(document).ready(function(){
+            refreshlist();
+            var wheight = $(window).height();
+            var newheight = wheight - 200;
+            $('.listdiv').height(newheight);
             if (<?php echo $fsz; ?>>0)
                {
                   $('#notification-area').append('<div id="success" class="alert alert-success"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>File Import</strong> <?php echo $fff; ?></div>');
@@ -210,7 +208,6 @@
              //wtf?  How did that happen?   
             }
         });
-
          </script>
     </body>
 </html>
