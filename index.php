@@ -130,13 +130,27 @@
                     <button class="btn btn-danger" data-dismiss="modal" aria-hidden="true" id="closeimportbtn">Close</button>
                 </div>
             </div>
-                <div class="modal hide fade" id="admintimes" tabindex="-1" role="dialog" aria-labelledby="timesmodallabel" aria-hidden="true">
+            <div class="modal hide fade" id="admintimes" tabindex="-1" role="dialog" aria-labelledby="timesmodallabel" aria-hidden="true">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                      <h3 id="timesmodallabel">Remove Admin Times</h3>
                 </div>
                 <div class="modal-body">
                     <div id="admintable">
+                        
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-danger" data-dismiss="modal" aria-hidden="true" id="closeimportbtn">Close</button>
+                </div>
+            </div>
+            <div class="modal hide fade" id="drugadmin" tabindex="-1" role="dialog" aria-labelledby="drugsmodallabel" aria-hidden="true">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                     <h3 id="drugsmodallabel">Change Drug Status</h3>
+                </div>
+                <div class="modal-body">
+                    <div id="drugoptions">
                         
                     </div>
                 </div>

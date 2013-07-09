@@ -3,6 +3,7 @@ function addnotification(event){
         $('#' + event.data.id).alert();
         setTimeout(function(){$('#' + event.data.id).fadeOut(500,function(){$('#' + event.data.id).alert('close');});},5000);
 };
+
 function checkchange(cid,cval){
     var checkstatus = $('#' + cid).prop("checked");
     var checkid = cid;
@@ -23,6 +24,7 @@ function checkchange(cid,cval){
         alert('I cannot explain what happened or why it happened.');
     });
 };
+
 function changeall(pname,status){
     var changejax = $.ajax({
         type:"POST",
@@ -32,6 +34,9 @@ function changeall(pname,status){
     });
     changejax.done(function(){
         refreshlist();
+        $('#notification-area').append('<div id="chg" class="alert alert-success"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>Patient Status</strong> ' + pname + ' was marked as Pack=' + status + '</div>');
+        $('#chg').alert();
+        setTimeout(function(){$('#chg').fadeOut(500,function(){$('#chg').alert('close');});},3000);
     });
     changejax.fail(function(){
         
@@ -39,10 +44,36 @@ function changeall(pname,status){
 };
 
 function refreshlist(){
-           $.ajax({
-              url: "scripts/fill_listed_orders.php",
-              dataType: "html"
-           }).done(function(html){
-             $('#listdata2').html(html);
-           }); 
+    $.ajax({
+        url: "scripts/fill_listed_orders.php",
+        dataType: "html"
+    }).done(function(html){
+        $('#listdata2').html(html);
+    }); 
+};
+
+function drugadmin(drugid){
+    $.ajax({
+        type: "POST",
+        url: "scripts/dnp_verify.php",
+        dataType: "html",
+        data: { drugid: drugid }
+    }).done(function(html){
+        $('#drugoptions').html(html);
+    });
+};
+
+function markdrug(drugid,drugname){
+    var drugjax = $.ajax({
+        type: "POST",
+        url: "scripts/dnp_commit.php",
+        dataType: "html",
+        data: { drugid: drugid }
+    })
+    drugjax.done(function(){
+        refreshlist();
+        $('#notification-area').append('<div id="chgd" class="alert alert-success"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>Drug Status</strong> ' + drugname + ' was marked as Never Pack</div>');
+        $('#chgd').alert();
+        setTimeout(function(){$('#chgd').fadeOut(500,function(){$('#chgd').alert('close');});},3000);        
+    })
 };

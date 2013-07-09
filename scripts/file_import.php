@@ -14,7 +14,7 @@
        $firstrow=true;
        $table_id="";
        $script="";
-
+       $rxtable=false;
        
        do{
           
@@ -58,6 +58,9 @@
        $updateimport=$db->query("UPDATE Import SET UpdateTime='".date("m/d/y h:i a")."' WHERE Table_ID=".$table_id.";");
        if($timechange){
          include_once('hoa_time_parser.php');  
+       }
+       if($rxtable){
+           include_once('rx_hoa_work.php');
        }
        fclose($handle);
     }
