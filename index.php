@@ -66,21 +66,31 @@
                         <label>File Name</label>
                         <div class="input-append pad4"><input type="text" id="FileName" placeholder="File Name" autcomplete="off" name="filename"><span class="add-on"><i class="icon-file"></i></span></div>
                         <br>
-                        <div class="pad4 btn-group"><button type="submit" class="btn btn-primary wide85" name="action" value="process">Process</button><button type="submit" class="btn btn-success wide85" name="action" value="export">Export</button><button type="submit" class="btn btn-danger wide85" name="action" value="clear" onClick="return confirm('Are you sure you want to clear the Export Table?');">Clear</button></div>
+                        <div class="pad4 btn-group"><button type="button" class="btn btn-primary wide85" name="action" value="process" onClick="processrx();" >Process</button><button type="button" class="btn btn-success wide85" name="action" value="export" onClick="exportrx();" >Export</button><button type="button" class="btn btn-danger wide85" name="action" value="clear" onClick="clearrx();">Clear</button></div>
                     </form>
+                    <div id="processprogress" style="display:none;">
+                        <div class="progress progress-striped active">
+                            <div class="bar" id="processbar" style="width: 100%;">Processing...</div>
+                        </div>
+                    </div>
                 </div>
                 <div class="span8">
                     <div class="tab-content">
                         <div class="tab-pane active" id="export">
                             <div class="row-fluid">
                                 <div class="span12" id="exportdata">
-                                    <?php echo $_SERVER['REMOTE_ADDR']; ?>
+                                    
                                 </div>
                             </div>
                         </div>
                         <div class="tab-pane" id="list">
                              <div class="row-fluid">
                                 <div class="span12" id="listdata">
+                                    <div id="listprogress">
+                                        <div class="progress progress-striped active">
+                                            <div class="bar" id="listbar" style="width: 100%;">Building List</div>
+                                        </div>
+                                    </div>
                                     <div id="listdata2" class="listdiv">
                                         
                                     </div>

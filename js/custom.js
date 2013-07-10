@@ -26,6 +26,7 @@ function checkchange(cid,cval){
 };
 
 function changeall(pname,status){
+    $('#listprogress').show();
     var changejax = $.ajax({
         type:"POST",
         url:"scripts/pt_pack_change.php",
@@ -49,6 +50,7 @@ function refreshlist(){
         dataType: "html"
     }).done(function(html){
         $('#listdata2').html(html);
+        $('#listprogress').hide();
     }); 
 };
 
@@ -71,9 +73,64 @@ function markdrug(drugid,drugname){
         data: { drugid: drugid }
     })
     drugjax.done(function(){
-        refreshlist();
+        $('#listprogress').show();
+        dohoawork();
         $('#notification-area').append('<div id="chgd" class="alert alert-success"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>Drug Status</strong> ' + drugname + ' was marked as Never Pack</div>');
         $('#chgd').alert();
         setTimeout(function(){$('#chgd').fadeOut(500,function(){$('#chgd').alert('close');});},3000);        
     })
 };
+
+function dohoawork(){
+    $.ajax({
+        url: "scripts/rx_hoa_work.php",
+        dataType: "html"
+    }).done(function(){
+       refreshlist(); 
+    });
+};
+
+function refreshexport(){
+    $.ajax({
+        
+    }).done(function(){
+        $('#processprogress').hide();
+    });
+};
+
+function processrx(){
+    var proc = $('#processprogress').show();
+    var strtDate = $('#StartDate').val();
+    var stopDate = $('#StopDate').val();
+    var CutOff = $('#CutOff').val();
+    $.ajax({
+        type: "POST",
+        url: "scripts/processrx.php",
+        dataType: "html",
+        data: { start: strtDate, stop: stopDate, cutoff: CutOff }
+    });
+            
+    proc.done(function(html){
+        //refreshexport();
+        alert('well f');
+        $('#exportdata').html(html);
+    });
+    
+    proc.fail(function(){
+       alert('FAIL'); 
+    });
+};
+
+function exportrx(){
+    
+};
+
+function clearrx(){
+    var go = confirm('you cleared me!');
+    if(go===true){
+        
+    }
+};
+
+//var val = $('input:radio[name="cutofftype"]:checked').val();
+//$('#fakefilefield').val($(this).val());
