@@ -58,7 +58,7 @@
                         <label>Cut Off Time</label>
                         <div class="input-append pad4 bootstrap-timepicker"><input id="CutOff" type="text" autocomplete="off" value="01:00" name="cutoff"><span class="add-on"><i class="icon-time"></i></span></div>
                         <div class="pad4">
-                        <label class="radio inline"><input type="radio" id="cycle" name="cutofftype" value="cycle" checked="checked">Cycle</label><label class="radio inline"><input type="radio" id="daily" name="cutofftype" value="daily">Daily</label><label class="radio inline"><input type="radio" id="abx" name="cutofftype" value="abx">Antibiotic</label>
+                        <label class="radio inline"><input type="radio" id="cycle" name="cutofftype" value="cycle" checked="checked"><a href="#" id="cyclepop" data-toggle="popover" data-title="Cycle Fill" data-content="This is used for cycle fill.  The packages go from 1 AM on the start date up to 1 AM on the stop date." data-trigger="hover" data-delay="500">Cycle</a></label><label class="radio inline"><input type="radio" id="daily" name="cutofftype" value="daily"><a href="#" id="dailypop" data-toggle="popover" data-title="Daily Batches" data-content="This is used for daily batches.  The packages start at the cutoff time of the start date, then go all the way through to the end of the stop date." data-trigger="hover" data-delay="500">Daily</a></label><label class="radio inline"><input type="radio" id="abx" name="cutofftype" value="abx"><a href="#" id="abxpop" data-toggle="popover" data-title="Antibiotics (and others)" data-content="This is used for batches that are written for a certain number of doses, usually antibiotics.  Packages start at cutoff time on the start date (usually 6 pm closing time) and go through to the cutoff time on the stop date." data-trigger="hover" data-delay="500">Antibiotic</a></label>
                         </div>
                         <div class="pad4" style="margin-bottom:10px;">
                             <button class="btn btn-warning" data-toggle="modal" data-target="#admintimes">Remove Administration Times</button>
@@ -192,6 +192,9 @@
         <script src="js/custom.js"></script>
         <script src="js/bootstrap-timepicker.js"></script>
         <script>
+            $('#cyclepop').popover();
+            $('#dailypop').popover();
+            $('#abxpop').popover();
             $('.datepicker').datepicker({
                 autoclose: true
             });

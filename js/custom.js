@@ -92,28 +92,30 @@ function dohoawork(){
 
 function refreshexport(){
     $.ajax({
-        
-    }).done(function(){
+        url: "scripts/fill_export.php",
+        dataType: "html"
+    }).done(function(html){
         $('#processprogress').hide();
+        $('#exportdata').html(html);
     });
 };
 
 function processrx(){
-    var proc = $('#processprogress').show();
+    var CutType = $('input:radio[name="cutofftype"]:checked').val();
     var strtDate = $('#StartDate').val();
     var stopDate = $('#StopDate').val();
     var CutOff = $('#CutOff').val();
-    $.ajax({
-        type: "POST",
-        url: "scripts/processrx.php",
-        dataType: "html",
-        data: { start: strtDate, stop: stopDate, cutoff: CutOff }
-    });
-            
-    proc.done(function(html){
-        //refreshexport();
-        alert('well f');
-        $('#exportdata').html(html);
+    if(strtDate!==""&&stopDate!==""&&CutOff!==""){
+        $('#processprogress').show();
+        var proc = $.ajax({
+            type: "POST",
+            url: "scripts/processrx.php",
+            dataType: "html",
+            data: { start: strtDate, stop: stopDate, cutoff: CutOff, cuttype: CutType }
+        });
+    };        
+    proc.done(function(){
+        refreshexport();
     });
     
     proc.fail(function(){
@@ -126,11 +128,17 @@ function exportrx(){
 };
 
 function clearrx(){
-    var go = confirm('you cleared me!');
+    var go = confirm('Are you sure you want to clear the Export List?');
     if(go===true){
-        
+       $('#processprogress').show();
+       $.ajax({
+           url: "scripts/clear_export.php",
+           dataType: "html"
+       }).done(function(){
+           refreshexport();
+       });
     }
 };
 
-//var val = $('input:radio[name="cutofftype"]:checked').val();
+//var cuttype = $('input:radio[name="cutofftype"]:checked').val();
 //$('#fakefilefield').val($(this).val());
