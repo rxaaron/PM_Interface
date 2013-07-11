@@ -140,5 +140,17 @@ function clearrx(){
     }
 };
 
-//var cuttype = $('input:radio[name="cutofftype"]:checked').val();
-//$('#fakefilefield').val($(this).val());
+function removeexport(rxnumber,admintime,patient,drug){
+    var go = confirm("Are you sure you want to remove " + patient + "'s " + drug + " @ " + admintime + "?");
+    if(go===true){
+        $.ajax({
+            type: "POST",
+            dataType: "html",
+            url: "scripts/delete_export.php",
+            data: { rxnumber: rxnumber, admintime: admintime }
+        }) .done(function(){
+            $('#processprogress').show();
+            refreshexport();
+        });
+    };
+};

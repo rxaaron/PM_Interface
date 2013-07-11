@@ -78,8 +78,10 @@
                     <div class="tab-content">
                         <div class="tab-pane active" id="export">
                             <div class="row-fluid">
-                                <div class="span12" id="exportdata">
-                                    
+                                <div class="span12" id="exporteddata">
+                                    <div id="exportdata" class="listdiv">
+                                        
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -210,6 +212,7 @@
         });
         $(document).ready(function(){
             refreshlist();
+            refreshexport();
             var wheight = $(window).height();
             var newheight = wheight - 200;
             $('.listdiv').height(newheight);
