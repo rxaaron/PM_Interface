@@ -2,7 +2,8 @@
 
     if(empty($_FILES)){
         $fsz=0;
-        
+        $fff=0;
+     
     }else{
        $fsz = 1;   
        $ff=str_replace("C:\\fakepath\\","",$_POST['fakefilefield']);

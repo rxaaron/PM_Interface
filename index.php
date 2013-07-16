@@ -2,7 +2,7 @@
 
     include('scripts/init.php');
     include('scripts/file_import.php');
-    
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -56,7 +56,7 @@
                         <label>Stop Date</label>
                         <div class="input-append date datepicker" data-date-format="mm/dd/yyyy"><input type="text" id="StopDate" autocomplete="off" name="stopdate"><span class="add-on"><i class="icon-calendar"></i></span></div>
                         <label>Cut Off Time</label>
-                        <div class="input-append pad4 bootstrap-timepicker"><input id="CutOff" type="text" autocomplete="off" value="01:00" name="cutoff"><span class="add-on"><i class="icon-time"></i></span></div>
+                        <div class="input-append pad4 bootstrap-timepicker"><input id="CutOff" class="tpick" type="text" autocomplete="off" value="01:00" name="cutoff"><span class="add-on"><i class="icon-time"></i></span></div>
                         <div class="pad4">
                         <label class="radio inline"><input type="radio" id="cycle" name="cutofftype" value="cycle" checked="checked"><a href="#" id="cyclepop" data-toggle="popover" data-title="Cycle Fill" data-content="This is used for cycle fill.  The packages go from 1 AM on the start date up to 1 AM on the stop date." data-trigger="hover" data-delay="500">Cycle</a></label><label class="radio inline"><input type="radio" id="daily" name="cutofftype" value="daily"><a href="#" id="dailypop" data-toggle="popover" data-title="Daily Batches" data-content="This is used for daily batches.  The packages start at the cutoff time of the start date, then go all the way through to the end of the stop date." data-trigger="hover" data-delay="500">Daily</a></label><label class="radio inline"><input type="radio" id="abx" name="cutofftype" value="abx"><a href="#" id="abxpop" data-toggle="popover" data-title="Antibiotics (and others)" data-content="This is used for batches that are written for a certain number of doses, usually antibiotics.  Packages start at cutoff time on the start date (usually 6 pm closing time) and go through to the cutoff time on the stop date." data-trigger="hover" data-delay="500">Antibiotic</a></label>
                         </div>
@@ -153,7 +153,19 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-danger" data-dismiss="modal" aria-hidden="true" id="closeimportbtn">Close</button>
+                    <button class="btn btn-danger" data-dismiss="modal" aria-hidden="true" id="closetimesbtn">Close</button>
+                </div>
+            </div>
+            <div class="modal hide fade" id="hoamodal" tabindex="-1" role="dialog" aria-labelledby="hoarxmodallabel" aria-hidden="true" data-backdrop="static">
+                <div class="modal-header">
+                     <h3 id="hoarxmodallabel">Enter Admin Date and Times</h3>
+                </div>
+                <div class="modal-body">
+                    <div id="hoarxtable">
+                        
+                    </div>
+                </div>
+                <div class="modal-footer">
                 </div>
             </div>
             <div class="modal hide fade" id="drugadmin" tabindex="-1" role="dialog" aria-labelledby="drugsmodallabel" aria-hidden="true">
@@ -206,22 +218,22 @@
             $('#imprtbar').text("Importing File...");
         });
         
-        $('#CutOff').timepicker({
+        $('.tpick').timepicker({
             minuteStep: 30,
             showMeridian: false
         });
         $(document).ready(function(){
-            refreshlist();
-            refreshexport();
-            var wheight = $(window).height();
-            var newheight = wheight - 200;
-            $('.listdiv').height(newheight);
             if (<?php echo $fsz; ?>>0)
                {
                   $('#notification-area').append('<div id="success" class="alert alert-success"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>File Import</strong> <?php echo $fff; ?></div>');
                   $('#success').alert();
                   setTimeout(function(){$('#success').fadeOut(500,function(){$('#success').alert('close')})},5000);
                }
+            refreshlist();
+            refreshexport();
+            var wheight = $(window).height();
+            var newheight = wheight - 200;
+            $('.listdiv').height(newheight);
            });
         $('input[id=file2import]').change(function(){
                $('#fakefilefield').val($(this).val()); 

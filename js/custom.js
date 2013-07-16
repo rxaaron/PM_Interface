@@ -114,7 +114,10 @@ function processrx(){
             data: { start: strtDate, stop: stopDate, cutoff: CutOff, cuttype: CutType }
         });
     };        
-    proc.done(function(){
+    proc.done(function(html){
+        if(html==='1'){
+            rxhoa();
+        }
         refreshexport();
     });
     
@@ -153,4 +156,48 @@ function removeexport(rxnumber,admintime,patient,drug){
             refreshexport();
         });
     };
+};
+
+function rxhoa(){
+    $.ajax({
+        type: "POST",
+        dataType: "html",
+        url: "scripts/rx_hoa.php"
+    }).done(function(html){
+        $('#hoarxtable').html(html);
+        inputHelpers();
+        $('#hoamodal').modal('show');
+    });
+};
+
+function newRow(table){
+    var rowhtml = '<tr><td><div class="input-append date datepicker" data-date-format="mm/dd/yyyy"><input class="input-small" type="text" id="admindate" autocomplete="off" name="admindate[]"><span class="add-on"><i class="icon-calendar"></i></span></div></td><td><div class="input-append pad4"><input id="admintime" class="input-small" type="text" autocomplete="off" name="admintime[]"><span class="add-on"><i class="icon-time"></i></span></div></td><td><div class="input-append pad4"><input type="text" class="input-small" name="quantity[]"><span class="add-on"><strong>#</strong></span></div></td><td><div class="pad4"><button class="btn btn-primary btn-mini" type="button" onClick="newRow(\'' + table + '\');"><i class="icon-plus"></i></button></div></td></tr>';
+    $('#' + table).append(rowhtml);
+    inputHelpers();
+};
+
+function saveRx(patID,drugCode,doctor,RxNumber,Instructions,RPh){
+    var datastring = $('#f'+RxNumber).serialize();
+    $.ajax({
+        type: "POST",
+        url: "scripts/insert_RX_HOA.php",
+        dataType: "html",
+        data: { datastring: datastring, patientid: patID, drugcode: drugCode, doctor: doctor, rxnumber: RxNumber, rph: RPh, instructions: Instructions }
+    }).done(function(html){
+        $('#div'+RxNumber).remove();
+        if(html==='0'){
+            $('#hoamodal').modal('hide');
+        }
+        refreshexport();
+    });
+};
+
+function inputHelpers(){
+        $('.datepicker').datepicker({
+                autoclose: true
+        });
+        $('.tpick').timepicker({
+            minuteStep: 30,
+            showMeridian: false
+        });
 };

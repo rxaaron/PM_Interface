@@ -2,15 +2,17 @@
     session_start();
     include_once('dbconn.php');
     
+    $requireswork = 0;
     $start = $_POST['start'];
     $stop = $_POST['stop'];
     $cutoff = $_POST['cutoff'];
     $cutType=$_POST['cuttype'];
     
     $patid = $dbh->prepare("SELECT Patient_ID FROM Patient WHERE Patient_Name = :ptname AND Patient_Group = :ptgroup AND Deletion_Code_PD <> '#' AND Deletion_Code_PT <> '#';");
-    $rxbypatient=$dbh->prepare("SELECT A.Rx_Number, A.HOA_ID, A.Rx_Stop_Date, A.Rx_Start_Date, A.RPH, A.Doctor, A.Drug_Code, A.Sig_QuantityPerDose, B.Line1, B.Line2, B.Line3, B.Line4, B.Line5, B.Line6, B.Line7, B.Line8 FROM ".$_SESSION['prefix']."_Rx AS A INNER JOIN Sig AS B ON A.Sig_Code=B.Sig_Code WHERE A.Patient_Name = :ptname2 AND A.Patient_Group = :ptgroup2 AND Pack = true AND HOA_ID<>0");
+    $rxbypatient=$dbh->prepare("SELECT A.Rx_Number, A.HOA_ID, A.Rx_Stop_Date, A.Rx_Start_Date, A.RPH, A.Doctor, A.Drug_Code, A.Sig_QuantityPerDose, B.Line1, B.Line2, B.Line3, B.Line4, B.Line5, B.Line6, B.Line7, B.Line8 FROM ".$_SESSION['prefix']."_Rx AS A INNER JOIN Sig AS B ON A.Sig_Code=B.Sig_Code WHERE A.Patient_Name = :ptname2 AND A.Patient_Group = :ptgroup2 AND Pack = true");
     $insrtexport=$dbh->prepare("INSERT INTO ".$_SESSION['prefix']."_Export (Patient_ID, Drug_Code, Admin_Date, Admin_Time, Quantity, Doctor, Rx_Number, Instructions, Bag_Type, Pharmacist) VALUES (:pid,:drugcode,:admindate,:admintime,:quantity,:doctor,:rxnumber,:instructions,:bagtype,:rph)");
     $gethoa=$dbh->prepare("SELECT Admin_Time FROM HOA_Time WHERE HOA_ID = :hoaid");
+    $insrthelp=$dbh->prepare("INSERT INTO ".$_SESSION['prefix']."_HOA (Rx_Number,Drug_Name,Patient_Name,Instructions,Doctor, RPh) VALUES (:rxnumber2, :drugname2,:pname2, :instructions2, :doctor2, :rph2)");
     $rxpatient = $db->query("SELECT DISTINCT Patient_Name, Patient_Group FROM ".$_SESSION['prefix']."_Rx WHERE Pack = true");
     while($rxres=$rxpatient->fetch_object()){
         
@@ -22,7 +24,7 @@
             
         while($bypatres=$rxbypatient->fetch(PDO::FETCH_OBJ)){
             
-            //if($bypatres->HOA_ID != "PRN" AND $bypatres->HOA_ID != "RX" AND $bypatres->HOA_ID != "0"){
+            if($bypatres->HOA_ID != "PRN" AND $bypatres->HOA_ID != "RX" AND $bypatres->HOA_ID != "0"){
                 $curDate = strtotime($start);
                 do{
                 
@@ -50,13 +52,15 @@
                     }
                 $curDate=strtotime("+1 day",$curDate);
                 }while($curDate<=strtotime($stop));
-           // }elseif($bypatres->HOA_ID==="RX"){
+           }elseif($bypatres->HOA_ID=="RX"){
                 //this is going to be horrible.
+               $requireswork=1;
+                $insrthelp->execute(array(':rxnumber2'=>$bypatres->Rx_Number,':drugname2'=>$bypatres->Drug_Code,':pname2'=>$patientID,':instructions2'=>substr($bypatres->Line1." ".$bypatres->Line2." ".$bypatres->Line3." ".$bypatres->Line4." ".$bypatres->Line5." ".$bypatres->Line6." ".$bypatres->Line7." ".$bypatres->Line8,0,75),':doctor2'=>$bypatres->Doctor,':rph2'=>$bypatres->RPH));
             //}else{
                 
-            //}
+            }
         }
     }
-   
+   echo $requireswork;
     
 ?>

@@ -4,11 +4,13 @@ $createRx = "CREATE TABLE `pacmed_interface`.`".$newprefix."_Rx` ( `Rx_ID` int( 
 
 $createExport = "CREATE TABLE `pacmed_interface`.`".$newprefix."_Export` ( `Export_ID` int( 3 ) NOT NULL AUTO_INCREMENT ,`Patient_ID` int( 3 ) NOT NULL ,`Drug_Code` varchar ( 10 ) NOT NULL ,`Admin_Date` varchar( 15 ) NOT NULL ,`Admin_Time` varchar( 10 ) NOT NULL ,`Quantity` varchar( 5 ) NOT NULL ,`Doctor` varchar( 25 ) NOT NULL ,`Rx_Number` varchar( 15 ) NOT NULL ,`Comment` varchar( 50 ) DEFAULT NULL ,`Instructions` varchar( 100 ) NOT NULL ,`Bag_Type` varchar( 5 ) NOT NULL ,`Pharmacist` varchar( 5 ) DEFAULT NULL ,PRIMARY KEY ( `Export_ID` ) );";
 
+$createHOA =  "CREATE  TABLE  `pacmed_interface`.`".$newprefix."_HOA` (  `Help_ID` int( 3  )  NOT  NULL  AUTO_INCREMENT , `Rx_Number` varchar( 15  )  NOT  NULL , `Drug_Name` varchar( 35  )  NOT  NULL , `Patient_Name` varchar( 50  )  NOT  NULL , `Instructions` varchar( 250  )  NOT  NULL ,`Doctor` varchar( 50 ) NOT NULL, `RPh` varchar( 50 ) NOT NULL , PRIMARY  KEY (  `Help_ID`  )  );";
+
 $rx = $db->query($createRx);
 if($rx){
     $export=$db->query($createExport);
     if($export){
-        //it works!!!
+        $hoa = $db->query($createHOA);
     }else{
         echo "different failure";
     }
