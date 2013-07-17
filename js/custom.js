@@ -240,3 +240,19 @@ function rmvtime(time,tracker){
         refreshexport();
     });
 };
+
+function fillSSdates(){
+    
+    var strtDate = $('#StartDate').val();
+    var stopDate = $('#StopDate').val();
+    if(strtDate!==""&&stopDate!==""){
+        $.ajax({
+            type: "POST",
+            url: "scripts/start_stop.php",
+            dataType: "html",
+            data: { start: strtDate, stop: stopDate }
+        }).done(function(html){
+            $('#ssdata').html(html);
+        });
+    };
+};

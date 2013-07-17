@@ -56,7 +56,7 @@
                         <label>Start Date</label>
                         <div class="input-append date datepicker" data-date-format="mm/dd/yyyy"><input type="text" id="StartDate" autocomplete="off" value="<?php echo date("m/d/Y"); ?>" name="startdate"><span class="add-on"><i class="icon-calendar"></i></span></div>
                         <label>Stop Date</label>
-                        <div class="input-append date datepicker" data-date-format="mm/dd/yyyy"><input type="text" id="StopDate" autocomplete="off" name="stopdate"><span class="add-on"><i class="icon-calendar"></i></span></div>
+                        <div class="input-append date datepicker" data-date-format="mm/dd/yyyy"><input type="text" id="StopDate" autocomplete="off" name="stopdate" onChange="fillSSdates();"><span class="add-on"><i class="icon-calendar"></i></span></div>
                         <label>Cut Off Time</label>
                         <div class="input-append pad4 bootstrap-timepicker"><input id="CutOff" class="tpick" type="text" autocomplete="off" value="01:00" name="cutoff"><span class="add-on"><i class="icon-time"></i></span></div>
                         <div class="pad4">
@@ -103,8 +103,11 @@
                         </div>
                         <div class="tab-pane" id="startstop">
                             <div class="row-fluid">
-                                <div class="span12" id="ssdata">
+                                <div class="span12">
+                                    <button class="btn btn-primary" type="button" onclick="fillSSdates();">try</button>
+                                <div id="ssdata">
                                     
+                                </div>
                                 </div>
                             </div>                            
                         </div>
