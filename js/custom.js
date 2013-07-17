@@ -113,8 +113,13 @@ function processrx(){
             dataType: "html",
             data: { start: strtDate, stop: stopDate, cutoff: CutOff, cuttype: CutType }
         });
+    }else{
+        alert('Please verify that Start Date, Stop Date, and CutOff Time all have valid entries.');
     };        
     proc.done(function(html){
+        if($('#rmvadmin').is(":checked")){
+            rmvAdminWindow();
+        }
         if(html==='1'){
             rxhoa();
         }
@@ -166,12 +171,21 @@ function rxhoa(){
     }).done(function(html){
         $('#hoarxtable').html(html);
         inputHelpers();
-        $('#hoamodal').modal('show');
+        if($('#admintimes').data('modal').isShown===false){
+            $('#hoamodal').modal('show');   
+        }else{
+            alert('shown');
+            $('#admintimes').on('hidden',function(){
+                $('#hoamodal').modal('show');
+                $('#admintimes').off('hidden');
+            });
+        }
+        
     });
 };
 
 function newRow(table){
-    var rowhtml = '<tr><td><div class="input-append date datepicker" data-date-format="mm/dd/yyyy"><input class="input-small" type="text" id="admindate" autocomplete="off" name="admindate[]"><span class="add-on"><i class="icon-calendar"></i></span></div></td><td><div class="input-append pad4"><input id="admintime" class="input-small" type="text" autocomplete="off" name="admintime[]"><span class="add-on"><i class="icon-time"></i></span></div></td><td><div class="input-append pad4"><input type="text" class="input-small" name="quantity[]"><span class="add-on"><strong>#</strong></span></div></td><td><div class="pad4"><button class="btn btn-primary btn-mini" type="button" onClick="newRow(\'' + table + '\');"><i class="icon-plus"></i></button></div></td></tr>';
+    var rowhtml = '<tr><td><div class="input-append date datepicker" data-date-format="mm/dd/yyyy"><input class="input-small" type="text" id="admindate" autocomplete="off" name="admindate[]"><span class="add-on"><i class="icon-calendar"></i></span></div></td><td><div class="input-append pad4"><input id="admintime" class="input-small tmask" type="text" autocomplete="off" name="admintime[]"><span class="add-on"><i class="icon-time"></i></span></div></td><td><div class="input-append pad4"><input type="text" class="input-small" name="quantity[]"><span class="add-on"><strong>#</strong></span></div></td><td><div class="pad4"><button class="btn btn-primary btn-mini" type="button" onClick="newRow(\'' + table + '\');"><i class="icon-plus"></i></button></div></td></tr>';
     $('#' + table).append(rowhtml);
     inputHelpers();
 };
@@ -200,4 +214,29 @@ function inputHelpers(){
             minuteStep: 30,
             showMeridian: false
         });
+        
+        $('.tmask').mask("19:59");
+};
+
+function rmvAdminWindow(){
+    $.ajax({
+        type: "POST",
+        url: "scripts/list_admin_times.php",
+        dataType: "html"
+    }).done(function(html){
+        $('#admintable').html(html);
+        $('#admintimes').modal('show');   
+    });
+};
+
+function rmvtime(time,tracker){
+    $.ajax({
+        type: "POST",
+        url: "scripts/rmv_admin_times.php",
+        dataType: "html",
+        data: { time: time, tracker: tracker }
+    }).done(function(){
+        $('#'+time).remove();
+        refreshexport();
+    });
 };

@@ -39,8 +39,10 @@
                                     <ul class="dropdown-menu">
                                         <li class><a href="#options" data-toggle="pill"><i class="icon-wrench"></i><i class="divider-vertical"></i>Options</a></li>
                                         <li class><a href="#settings" data-toggle="pill"><i class="icon-warning-sign"></i><i class="divider-vertical"></i>Advanced Settings</a></li>
+                                        <li class="divider"></li>
+                                        <li class><a href="#hoamodal" data-toggle="modal"><i class="icon-fire"></i><i class="divider-vertical"></i>Show RX HOA Form</a></li>
                                     </ul>
-                                </li>
+                                </li
                             </ul>
                         </div>
                     </div>
@@ -61,7 +63,7 @@
                         <label class="radio inline"><input type="radio" id="cycle" name="cutofftype" value="cycle" checked="checked"><a href="#" id="cyclepop" data-toggle="popover" data-title="Cycle Fill" data-content="This is used for cycle fill.  The packages go from 1 AM on the start date up to 1 AM on the stop date." data-trigger="hover" data-delay="500">Cycle</a></label><label class="radio inline"><input type="radio" id="daily" name="cutofftype" value="daily"><a href="#" id="dailypop" data-toggle="popover" data-title="Daily Batches" data-content="This is used for daily batches.  The packages start at the cutoff time of the start date, then go all the way through to the end of the stop date." data-trigger="hover" data-delay="500">Daily</a></label><label class="radio inline"><input type="radio" id="abx" name="cutofftype" value="abx"><a href="#" id="abxpop" data-toggle="popover" data-title="Antibiotics (and others)" data-content="This is used for batches that are written for a certain number of doses, usually antibiotics.  Packages start at cutoff time on the start date (usually 6 pm closing time) and go through to the cutoff time on the stop date." data-trigger="hover" data-delay="500">Antibiotic</a></label>
                         </div>
                         <div class="pad4" style="margin-bottom:10px;">
-                            <button class="btn btn-warning" data-toggle="modal" data-target="#admintimes">Remove Administration Times</button>
+                            <label class="checkbox"><input type="checkbox" id="rmvadmin" name="rmvadmin" />Remove Admin Times</label>
                         </div>
                         <label>File Name</label>
                         <div class="input-append pad4"><input type="text" id="FileName" placeholder="File Name" autcomplete="off" name="filename"><span class="add-on"><i class="icon-file"></i></span></div>
@@ -148,6 +150,7 @@
                      <h3 id="timesmodallabel">Remove Admin Times</h3>
                 </div>
                 <div class="modal-body">
+                    <h4>Click to remove a time.</h4>
                     <div id="admintable">
                         
                     </div>
@@ -205,6 +208,7 @@
         <script src="js/bootstrap-datepicker.js"></script>
         <script src="js/custom.js"></script>
         <script src="js/bootstrap-timepicker.js"></script>
+        <script src="js/inputmask.js"></script>
         <script>
             $('#cyclepop').popover();
             $('#dailypop').popover();
@@ -212,6 +216,8 @@
             $('.datepicker').datepicker({
                 autoclose: true
             });
+            $.mask.definitions['1'] = "[0-2]";
+            $.mask.definitions['5'] = "[0-5]";
         $('#closeimportbtn').click({type: 'error', title: 'File Import', text: 'was cancelled', id: 'cncl'},addnotification);
         $('#importfilebtn').click(function(){
             $('#imprtbar').width('100%');
@@ -227,7 +233,7 @@
                {
                   $('#notification-area').append('<div id="success" class="alert alert-success"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>File Import</strong> <?php echo $fff; ?></div>');
                   $('#success').alert();
-                  setTimeout(function(){$('#success').fadeOut(500,function(){$('#success').alert('close')})},5000);
+                  setTimeout(function(){$('#success').fadeOut(500,function(){$('#success').alert('close');});},5000);
                }
             refreshlist();
             refreshexport();

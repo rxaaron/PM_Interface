@@ -2,6 +2,7 @@
     session_start();
     include_once('dbconn.php');
     
+    $tracker=date("ymdhis");
     $requireswork = 0;
     $start = $_POST['start'];
     $stop = $_POST['stop'];
@@ -10,7 +11,7 @@
     
     $patid = $dbh->prepare("SELECT Patient_ID FROM Patient WHERE Patient_Name = :ptname AND Patient_Group = :ptgroup AND Deletion_Code_PD <> '#' AND Deletion_Code_PT <> '#';");
     $rxbypatient=$dbh->prepare("SELECT A.Rx_Number, A.HOA_ID, A.Rx_Stop_Date, A.Rx_Start_Date, A.RPH, A.Doctor, A.Drug_Code, A.Sig_QuantityPerDose, B.Line1, B.Line2, B.Line3, B.Line4, B.Line5, B.Line6, B.Line7, B.Line8 FROM ".$_SESSION['prefix']."_Rx AS A INNER JOIN Sig AS B ON A.Sig_Code=B.Sig_Code WHERE A.Patient_Name = :ptname2 AND A.Patient_Group = :ptgroup2 AND Pack = true");
-    $insrtexport=$dbh->prepare("INSERT INTO ".$_SESSION['prefix']."_Export (Patient_ID, Drug_Code, Admin_Date, Admin_Time, Quantity, Doctor, Rx_Number, Instructions, Bag_Type, Pharmacist) VALUES (:pid,:drugcode,:admindate,:admintime,:quantity,:doctor,:rxnumber,:instructions,:bagtype,:rph)");
+    $insrtexport=$dbh->prepare("INSERT INTO ".$_SESSION['prefix']."_Export (Patient_ID, Tracker, Drug_Code, Admin_Date, Admin_Time, Quantity, Doctor, Rx_Number, Instructions, Bag_Type, Pharmacist) VALUES (:pid,:tracker, :drugcode,:admindate,:admintime,:quantity,:doctor,:rxnumber,:instructions,:bagtype,:rph)");
     $gethoa=$dbh->prepare("SELECT Admin_Time FROM HOA_Time WHERE HOA_ID = :hoaid");
     $insrthelp=$dbh->prepare("INSERT INTO ".$_SESSION['prefix']."_HOA (Rx_Number,Drug_Name,Patient_Name,Instructions,Doctor, RPh) VALUES (:rxnumber2, :drugname2,:pname2, :instructions2, :doctor2, :rph2)");
     $rxpatient = $db->query("SELECT DISTINCT Patient_Name, Patient_Group FROM ".$_SESSION['prefix']."_Rx WHERE Pack = true");
@@ -35,18 +36,18 @@
                            
                                 //must be after cutoff time
                                 if(strtotime($cutoff)<strtotime($hoarez->Admin_Time)){
-                                    $insrtexport->execute(array(':pid'=>$patientID,':drugcode'=>$bypatres->Drug_Code,':admindate'=>date("Ymd",$curDate),':admintime'=>$hoarez->Admin_Time,':quantity'=>$bypatres->Sig_QuantityPerDose,':doctor'=>$bypatres->Doctor,':rxnumber'=>$bypatres->Rx_Number,':instructions'=>substr($bypatres->Line1." ".$bypatres->Line2." ".$bypatres->Line3." ".$bypatres->Line4." ".$bypatres->Line5." ".$bypatres->Line6." ".$bypatres->Line7." ".$bypatres->Line8,0,50),':bagtype'=>"M",':rph'=>$bypatres->RPH));
+                                    $insrtexport->execute(array(':pid'=>$patientID,':tracker'=>$tracker,':drugcode'=>$bypatres->Drug_Code,':admindate'=>date("Ymd",$curDate),':admintime'=>$hoarez->Admin_Time,':quantity'=>$bypatres->Sig_QuantityPerDose,':doctor'=>$bypatres->Doctor,':rxnumber'=>$bypatres->Rx_Number,':instructions'=>substr($bypatres->Line1." ".$bypatres->Line2." ".$bypatres->Line3." ".$bypatres->Line4." ".$bypatres->Line5." ".$bypatres->Line6." ".$bypatres->Line7." ".$bypatres->Line8,0,50),':bagtype'=>"M",':rph'=>$bypatres->RPH));
                                 }
                             }elseif ($curDate==strtotime($stop) AND $cutType != 'daily'){
                                 
                                 //must be before cutoff time, cutoff ignored for daily batches.
                                 if(strtotime($cutoff)>strtotime($hoarez->Admin_Time)){
-                                    $insrtexport->execute(array(':pid'=>$patientID,':drugcode'=>$bypatres->Drug_Code,':admindate'=>date("Ymd",$curDate),':admintime'=>$hoarez->Admin_Time,':quantity'=>$bypatres->Sig_QuantityPerDose,':doctor'=>$bypatres->Doctor,':rxnumber'=>$bypatres->Rx_Number,':instructions'=>substr($bypatres->Line1." ".$bypatres->Line2." ".$bypatres->Line3." ".$bypatres->Line4." ".$bypatres->Line5." ".$bypatres->Line6." ".$bypatres->Line7." ".$bypatres->Line8,0,50),':bagtype'=>"M",':rph'=>$bypatres->RPH));
+                                    $insrtexport->execute(array(':pid'=>$patientID,':tracker'=>$tracker,':drugcode'=>$bypatres->Drug_Code,':admindate'=>date("Ymd",$curDate),':admintime'=>$hoarez->Admin_Time,':quantity'=>$bypatres->Sig_QuantityPerDose,':doctor'=>$bypatres->Doctor,':rxnumber'=>$bypatres->Rx_Number,':instructions'=>substr($bypatres->Line1." ".$bypatres->Line2." ".$bypatres->Line3." ".$bypatres->Line4." ".$bypatres->Line5." ".$bypatres->Line6." ".$bypatres->Line7." ".$bypatres->Line8,0,50),':bagtype'=>"M",':rph'=>$bypatres->RPH));
                                 }
                             }else{
                                
                                 //cutoff time does not matter
-                                $insrtexport->execute(array(':pid'=>$patientID,':drugcode'=>$bypatres->Drug_Code,':admindate'=>date("Ymd",$curDate),':admintime'=>$hoarez->Admin_Time,':quantity'=>$bypatres->Sig_QuantityPerDose,':doctor'=>$bypatres->Doctor,':rxnumber'=>$bypatres->Rx_Number,':instructions'=>substr($bypatres->Line1." ".$bypatres->Line2." ".$bypatres->Line3." ".$bypatres->Line4." ".$bypatres->Line5." ".$bypatres->Line6." ".$bypatres->Line7." ".$bypatres->Line8,0,50),':bagtype'=>"M",':rph'=>$bypatres->RPH));
+                                $insrtexport->execute(array(':pid'=>$patientID,':tracker'=>$tracker,':drugcode'=>$bypatres->Drug_Code,':admindate'=>date("Ymd",$curDate),':admintime'=>$hoarez->Admin_Time,':quantity'=>$bypatres->Sig_QuantityPerDose,':doctor'=>$bypatres->Doctor,':rxnumber'=>$bypatres->Rx_Number,':instructions'=>substr($bypatres->Line1." ".$bypatres->Line2." ".$bypatres->Line3." ".$bypatres->Line4." ".$bypatres->Line5." ".$bypatres->Line6." ".$bypatres->Line7." ".$bypatres->Line8,0,50),':bagtype'=>"M",':rph'=>$bypatres->RPH));
                             }
                         }
                     }
