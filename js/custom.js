@@ -1,7 +1,7 @@
-function addnotification(event){
-        $('#notification-area').append('<div id="' + event.data.id + '" class="alert alert-' + event.data.type + '"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>' + event.data.title + '</strong> ' + event.data.text + '</div>');
-        $('#' + event.data.id).alert();
-        setTimeout(function(){$('#' + event.data.id).fadeOut(500,function(){$('#' + event.data.id).alert('close');});},5000);
+function addnotification(nid,ntype,ntitle,ntext,timeout){
+        $('#notification-area').append('<div id="' + nid + '" class="alert alert-' + ntype + '"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>' + ntitle + '</strong> ' + ntext + '</div>');
+        $('#' + nid).alert();
+        setTimeout(function(){$('#' + nid).fadeOut(500,function(){$('#' + nid).alert('close');});},timeout);
 };
 
 function checkchange(cid,cval){
@@ -16,10 +16,9 @@ function checkchange(cid,cval){
     });
             
     checkjax.done(function(){
-        $('#notification-area').append('<div id="chg" class="alert alert-success"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>Rx Status</strong> ' + checkvalue + ' was marked as Pack=' + checkstatus + '</div>');
-        $('#chg').alert();
-        setTimeout(function(){$('#chg').fadeOut(500,function(){$('#chg').alert('close');});},2000);
-});
+        var str = checkvalue + ' was marked as Pack=' + checkstatus;
+        addnotification('chg','success','Rx Status',str,2000);
+    });
     checkjax.fail(function(){
         alert('I cannot explain what happened or why it happened.');
     });
@@ -35,9 +34,8 @@ function changeall(pname,status){
     });
     changejax.done(function(){
         refreshlist();
-        $('#notification-area').append('<div id="chg" class="alert alert-success"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>Patient Status</strong> ' + pname + ' was marked as Pack=' + status + '</div>');
-        $('#chg').alert();
-        setTimeout(function(){$('#chg').fadeOut(500,function(){$('#chg').alert('close');});},3000);
+        var st = pname + ' was marked as Pack=' + status;
+        addnotification('chg','success','Patient Status',st,2000);
     });
     changejax.fail(function(){
         
@@ -75,9 +73,8 @@ function markdrug(drugid,drugname){
     drugjax.done(function(){
         $('#listprogress').show();
         dohoawork();
-        $('#notification-area').append('<div id="chgd" class="alert alert-success"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>Drug Status</strong> ' + drugname + ' was marked as Never Pack</div>');
-        $('#chgd').alert();
-        setTimeout(function(){$('#chgd').fadeOut(500,function(){$('#chgd').alert('close');});},3000);        
+        var dst = drugname + ' was marked as Never Pack';
+        addnotification('chgd','success','Drug Status',dst,3000);     
     })
 };
 
@@ -252,6 +249,9 @@ function fillSSdates(){
             dataType: "html",
             data: { start: strtDate, stop: stopDate }
         }).done(function(html){
+            if(html.length>0){
+                addnotification('ss','info','Start/Stop Dates','You have at least one Rx that starts or stops during your chosen dates.',5000)
+            }
             $('#ssdata').html(html);
         });
     };

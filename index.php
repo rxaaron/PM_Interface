@@ -90,6 +90,7 @@
                         <div class="tab-pane" id="list">
                              <div class="row-fluid">
                                 <div class="span12" id="listdata">
+                                    <button class="btn btn-primary" type="button" onClick="refreshlist();"><i class="icon-refresh icon-white"></i> Refresh</button>
                                     <div id="listprogress">
                                         <div class="progress progress-striped active">
                                             <div class="bar" id="listbar" style="width: 100%;">Building List</div>
@@ -104,8 +105,8 @@
                         <div class="tab-pane" id="startstop">
                             <div class="row-fluid">
                                 <div class="span12">
-                                    <button class="btn btn-primary" type="button" onclick="fillSSdates();">try</button>
-                                <div id="ssdata">
+                                    <button class="btn btn-primary" type="button" onclick="fillSSdates();"><i class="icon-refresh icon-white"></i> Refresh</button>
+                                <div id="ssdata" class="listdiv">
                                     
                                 </div>
                                 </div>
@@ -221,7 +222,9 @@
             });
             $.mask.definitions['1'] = "[0-2]";
             $.mask.definitions['5'] = "[0-5]";
-        $('#closeimportbtn').click({type: 'error', title: 'File Import', text: 'was cancelled', id: 'cncl'},addnotification);
+        $('#closeimportbtn').click(function(){
+            addnotification('cncl','error','File Import', 'was cancelled.',5000);
+        });
         $('#importfilebtn').click(function(){
             $('#imprtbar').width('100%');
             $('#imprtbar').text("Importing File...");
@@ -232,17 +235,15 @@
             showMeridian: false
         });
         $(document).ready(function(){
-            if (<?php echo $fsz; ?>>0)
-               {
-                  $('#notification-area').append('<div id="success" class="alert alert-success"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>File Import</strong> <?php echo $fff; ?></div>');
-                  $('#success').alert();
-                  setTimeout(function(){$('#success').fadeOut(500,function(){$('#success').alert('close');});},5000);
+            if (<?php echo $fsz; ?>>0){
+                   var mess = <?php echo $fff; ?>;
+                   addnotification('success','success','File Import',mess,5000);
                }
-            refreshlist();
-            refreshexport();
             var wheight = $(window).height();
             var newheight = wheight - 200;
             $('.listdiv').height(newheight);
+            setTimeout(function(){refreshlist();},500);
+            refreshexport();
            });
         $('input[id=file2import]').change(function(){
                $('#fakefilefield').val($(this).val()); 

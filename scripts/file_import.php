@@ -2,11 +2,11 @@
 
     if(empty($_FILES)){
         $fsz=0;
-        $fff=0;
+        $fff="\"\"";
      
     }else{
        $fsz = 1;   
-       $ff=str_replace("C:\\fakepath\\","",$_POST['fakefilefield']);
+       //$ff=str_replace("C:\\fakepath\\","",$_POST['fakefilefield']);
 
       $file = $_FILES['file2import'][tmp_name]; 
       $handle = fopen($file,"r"); 
@@ -31,7 +31,7 @@
                    if($table){
                        
                        while($tres=$table->fetch_object()){
-                           $fff = $ff." was import as ".$tres->Table_Name." file.";
+                           $fff = "'a ".$tres->Table_Name." file was imported.'";
                            $script=$tres->Script;
                            $table_id=$tres->Table_ID;
                            $firstrow=false;
