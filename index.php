@@ -69,7 +69,7 @@
                         <label>File Name</label>
                         <div class="input-append pad4"><input type="text" id="FileName" placeholder="File Name" autcomplete="off" name="filename"><span id="warnbox" class="add-on"><i id="warnicon" class="icon-file"></i></span></div>
                         <br>
-                        <div class="pad4 btn-group"><button type="button" class="btn btn-primary wide85" name="action" value="process" onClick="processrx();" >Process</button><button type="button" class="btn btn-success wide85" name="action" value="export" onClick="exportrx();" >Export</button><button type="button" class="btn btn-danger wide85" name="action" value="clear" onClick="clearrx();">Clear</button></div>
+                        <div class="pad4 btn-group"><button type="button" class="btn btn-primary wide85" name="action" value="process" onClick="processrx();" >Process</button><button type="button" class="btn btn-warning wide85" name="action" value="prn" onClick="prn();">PRN Package</button></div><br><br><div class="pad4 btn-group"><button type="button" class="btn btn-success wide85" name="action" value="export" onClick="exportrx();" >Export</button><button type="button" class="btn btn-danger wide85" name="action" value="clear" onClick="clearrx();">Clear</button></div>
                     </form>
                     <div id="processprogress" style="display:none;">
                         <div class="progress progress-striped active">
@@ -183,6 +183,20 @@
                 </div>
                 <div class="modal-body">
                     <div id="drugoptions">
+                        
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-danger" data-dismiss="modal" aria-hidden="true" id="closeimportbtn">Close</button>
+                </div>
+            </div> 
+            <div class="modal hide fade" id="prnmodal" tabindex="-1" role="dialog" aria-labelledby="prnmodallabel" aria-hidden="true">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                     <h3 id="prnmodallabel">Process PRN Orders</h3>
+                </div>
+                <div class="modal-body">
+                    <div id="prnlist">
                         
                     </div>
                 </div>

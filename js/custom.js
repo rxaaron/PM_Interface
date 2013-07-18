@@ -131,11 +131,14 @@ function processrx(){
 function exportrx(){
     var filename = $('#FileName').val();
     if(filename!==""){
+        $('#processprogress').show();
         $.ajax({
             type: "POST",
             url: "scripts/export_data.php",
             dataType: "html",
             data: { fn : filename }
+        }).done(function(){
+            $('#processprogress').hide();
         });
     }else{
         alert('Please enter a valid file name to continue.');
@@ -269,4 +272,18 @@ function fillSSdates(){
             $('#ssdata').html(html);
         });
     };
+};
+
+function prn(){
+    $.ajax({
+        url: "scripts/process_prn.php",
+        dataType: "html"
+    }).done(function(html){
+        if(html.length>0){
+            $('#prnlist').html(html);
+            $('#prnmodal').modal('show');
+        }else{
+            alert('There are no PRN orders to process.');
+        }
+    });
 };
