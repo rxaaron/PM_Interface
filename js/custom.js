@@ -129,7 +129,17 @@ function processrx(){
 };
 
 function exportrx(){
-    
+    var filename = $('#FileName').val();
+    if(filename!==""){
+        $.ajax({
+            type: "POST",
+            url: "scripts/export_data.php",
+            dataType: "html",
+            data: { fn : filename }
+        });
+    }else{
+        alert('Please enter a valid file name to continue.');
+    }
 };
 
 function clearrx(){
@@ -168,14 +178,13 @@ function rxhoa(){
     }).done(function(html){
         $('#hoarxtable').html(html);
         inputHelpers();
-        if($('#admintimes').data('modal').isShown===false){
-            $('#hoamodal').modal('show');   
+        if($('#rmvadmin').is(":checked")){
+                $('#admintimes').on('hidden',function(){
+                    $('#hoamodal').modal('show');
+                    $('#admintimes').off('hidden');
+                });
         }else{
-            alert('shown');
-            $('#admintimes').on('hidden',function(){
-                $('#hoamodal').modal('show');
-                $('#admintimes').off('hidden');
-            });
+            $('#hoamodal').modal('show'); 
         }
         
     });
@@ -250,7 +259,12 @@ function fillSSdates(){
             data: { start: strtDate, stop: stopDate }
         }).done(function(html){
             if(html.length>0){
+                $('#warnbox').addClass("warn");
+                $('#warnicon').removeClass("icon-file").addClass("icon-warning-sign");
                 addnotification('ss','info','Start/Stop Dates','You have at least one Rx that starts or stops during your chosen dates.',5000)
+            }else{
+                $('#warnbox').removeClass("warn");
+                $('#warnicon').removeClass("icon-warning-sign").addClass("icon-file")
             }
             $('#ssdata').html(html);
         });

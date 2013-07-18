@@ -52,6 +52,7 @@
             <div class="tab-pane active" id="create">
             <div class="row-fluid">
                 <div class="span3">
+                    
                     <form autocomplete="off" method="POST" action="">
                         <label>Start Date</label>
                         <div class="input-append date datepicker" data-date-format="mm/dd/yyyy"><input type="text" id="StartDate" autocomplete="off" value="<?php echo date("m/d/Y"); ?>" name="startdate"><span class="add-on"><i class="icon-calendar"></i></span></div>
@@ -66,7 +67,7 @@
                             <label class="checkbox"><input type="checkbox" id="rmvadmin" name="rmvadmin" />Remove Admin Times</label>
                         </div>
                         <label>File Name</label>
-                        <div class="input-append pad4"><input type="text" id="FileName" placeholder="File Name" autcomplete="off" name="filename"><span class="add-on"><i class="icon-file"></i></span></div>
+                        <div class="input-append pad4"><input type="text" id="FileName" placeholder="File Name" autcomplete="off" name="filename"><span id="warnbox" class="add-on"><i id="warnicon" class="icon-file"></i></span></div>
                         <br>
                         <div class="pad4 btn-group"><button type="button" class="btn btn-primary wide85" name="action" value="process" onClick="processrx();" >Process</button><button type="button" class="btn btn-success wide85" name="action" value="export" onClick="exportrx();" >Export</button><button type="button" class="btn btn-danger wide85" name="action" value="clear" onClick="clearrx();">Clear</button></div>
                     </form>
@@ -213,6 +214,7 @@
         <script src="js/custom.js"></script>
         <script src="js/bootstrap-timepicker.js"></script>
         <script src="js/inputmask.js"></script>
+        <script src="js/prefixfree.min.js"></script>
         <script>
             $('#cyclepop').popover();
             $('#dailypop').popover();

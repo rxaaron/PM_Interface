@@ -6357,3 +6357,12 @@ button.close {
 body{
     overflow-y:hidden;
 }
+
+.warn{
+    animation:warning 0.5s linear alternate infinite;
+}
+
+@keyframes warning{
+    from{background-color:#ffffff;}
+    to{background-color:#fe2e2e;}
+}
