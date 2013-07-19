@@ -287,3 +287,20 @@ function prn(){
         }
     });
 };
+
+function packPRN(rxid,pid){
+    var inpt = $('#' + rxid + 'prnqty').val();
+    
+    $.ajax({
+        url: "scripts/pack_prn.php",
+        type: "POST",
+        dataType: "html",
+        data: { rxid: rxid, quantity: inpt, patient: pid }
+    }).done(function(html){
+        if(html.length>0){
+            
+            $('#div'+rxid).remove();
+        }
+        refreshexport();
+    });
+};
