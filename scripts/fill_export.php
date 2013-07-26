@@ -3,7 +3,7 @@
     session_start();
     include_once('dbconn.php');
     
-    $slctexp=$db->query("SELECT DISTINCT A.Rx_Number, B.Patient_Name, B.Patient_Group, C.Drug_Name, A.Admin_Time, SUM(A.Quantity) AS SUM FROM ".$_SESSION['prefix']."_Export AS A INNER JOIN Patient AS B ON A.Patient_ID = B.Patient_ID INNER JOIN Drug AS C ON A.Drug_Code = C.Drug_Code GROUP BY A.Rx_Number, B.Patient_Name, C.Drug_Name, A.Admin_Time");
+    $slctexp=$db->query("SELECT DISTINCT A.Rx_Number, B.Patient_Name, B.Patient_Group, C.Drug_Name, A.Admin_Time, SUM(A.Quantity) AS SUM FROM ".$_SESSION['prefix']."_Export AS A INNER JOIN Patient AS B ON A.Patient_ID = B.Patient_ID INNER JOIN Drug AS C ON A.Drug_Code = C.Drug_Code GROUP BY A.Rx_Number, B.Patient_Name, C.Drug_Name, A.Admin_Time ORDER BY B.Patient_Name, A.Admin_Time");
     
     $tablestart = "<table class=\"table table-striped\"><thead><tr><th>Rx Number</th><th>Drug</th><th>Time</th><th>Quantity</th></tr></thead><tbody>";
     $tableend = "</tbody></table>";

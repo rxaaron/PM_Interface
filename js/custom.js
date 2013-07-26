@@ -128,7 +128,7 @@ function processrx(){
     });
 };
 
-function exportrx(){
+function exportrx(restock){
     var filename = $('#FileName').val();
     if(filename!==""){
         $('#processprogress').show();
@@ -136,9 +136,15 @@ function exportrx(){
             type: "POST",
             url: "scripts/export_data.php",
             dataType: "html",
-            data: { fn : filename }
-        }).done(function(){
+            data: { fn : filename, restock: restock }
+        }).done(function(html){
             $('#processprogress').hide();
+            if(restock==='false'){
+                window.open('manifest.php?batch='+html,'_blank');
+            }else{
+                $('#restock').html('Done!!!');
+                setTimeout(function(){$('#restock').html('Export as Restock');},5000);
+            }
         });
     }else{
         alert('Please enter a valid file name to continue.');

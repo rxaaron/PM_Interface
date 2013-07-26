@@ -6350,6 +6350,9 @@ button.close {
     width:125px;
 }
 
+.wide250{
+    width:250px;
+}
 .listdiv{
     overflow-y: scroll;   
 }
