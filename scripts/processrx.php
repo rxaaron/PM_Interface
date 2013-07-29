@@ -10,7 +10,7 @@
     $cutType=$_POST['cuttype'];
     
     $patid = $dbh->prepare("SELECT Patient_ID FROM Patient WHERE Patient_Name = :ptname AND Patient_Group = :ptgroup AND Deletion_Code_PD <> '#' AND Deletion_Code_PT <> '#';");
-    $rxbypatient=$dbh->prepare("SELECT A.Rx_Number, A.HOA_ID, A.Rx_Stop_Date, A.Rx_Start_Date, A.RPH, A.Doctor, A.Drug_Code, A.Sig_QuantityPerDose, B.Line1, B.Line2, B.Line3, B.Line4, B.Line5, B.Line6, B.Line7, B.Line8 FROM ".$_SESSION['prefix']."_Rx AS A INNER JOIN Sig AS B ON A.Sig_Code=B.Sig_Code WHERE A.Patient_Name = :ptname2 AND A.Patient_Group = :ptgroup2 AND Pack = true");
+    $rxbypatient=$dbh->prepare("SELECT A.Rx_Number, A.HOA_ID, A.Rx_Stop_Date, A.Rx_Start_Date, A.RPH, A.Doctor, A.Drug_Code, A.Sig_QuantityPerDose, B.Line1, B.Line2, B.Line3, B.Line4, B.Line5, B.Line6, B.Line7, B.Line8, C.Drug_Category, D.WarfDDI, F.Medical_Record_Number FROM ".$_SESSION['prefix']."_Rx AS A INNER JOIN Sig AS B ON A.Sig_Code=B.Sig_Code INNER JOIN Drug AS C ON A.Drug_Code = C.Drug_Code INNER JOIN FGroup AS E ON A.Patient_Group = E.Group_Name INNER JOIN Facility AS D ON E.Facility_ID = D.Facility_ID INNER JOIN Patient AS F ON A.Patient_Name = F.Patient_Name WHERE A.Patient_Name = :ptname2 AND A.Patient_Group = :ptgroup2 AND Pack = true");
     $insrtexport=$dbh->prepare("INSERT INTO ".$_SESSION['prefix']."_Export (Patient_ID, Tracker, Drug_Code, Admin_Date, Admin_Time, Quantity, Doctor, Rx_Number, Instructions, Bag_Type, Pharmacist) VALUES (:pid,:tracker, :drugcode,:admindate,:admintime,:quantity,:doctor,:rxnumber,:instructions,:bagtype,:rph)");
     $gethoa=$dbh->prepare("SELECT Admin_Time FROM HOA_Time WHERE HOA_ID = :hoaid");
     $insrthelp=$dbh->prepare("INSERT INTO ".$_SESSION['prefix']."_HOA (Rx_Number,Drug_Name,Patient_Name,Instructions,Doctor, RPh) VALUES (:rxnumber2, :drugname2,:pname2, :instructions2, :doctor2, :rph2)");
@@ -27,6 +27,10 @@
             
             if($bypatres->HOA_ID != "PRN" AND $bypatres->HOA_ID != "RX" AND $bypatres->HOA_ID != "0"){
                 $curDate = strtotime($start);
+                if($bypatres->WarfDDI==true AND $bypatres->Medical_Record_Number==="W" AND $bypatres->Drug_Category==="WFDDI"){
+                   $insrtexport->execute(array(':pid'=>$patientID,':tracker'=>$tracker,':drugcode'=>"WF_DDI",':admindate'=>date("Ymd",strtotime($curdate." + 2 days")),':admintime'=>"0800",':quantity'=>'1.00',':doctor'=>$bypatres->Doctor,':rxnumber'=>$bypatres->Rx_Number,':instructions'=>substr($bypatres->Line1." ".$bypatres->Line2." ".$bypatres->Line3." ".$bypatres->Line4." ".$bypatres->Line5." ".$bypatres->Line6." ".$bypatres->Line7." ".$bypatres->Line8,0,50),':bagtype'=>"M",':rph'=>$bypatres->RPH)); 
+                }
+                    
                 do{
                 
                     $gethoa->execute(array(':hoaid'=>$bypatres->HOA_ID));

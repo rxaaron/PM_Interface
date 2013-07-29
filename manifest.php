@@ -20,8 +20,9 @@ class myPDF extends FPDF {
         $this->SetFont('Arial','',11);
         $this->Cell(0,15,$sigline,0,1,'L');
         $this->SetFont('Arial','',12);
-        $datepage = date("F j, Y")."  Page ".$this->PageNo()." of {nb}";
-        $this->Cell(0,0,$datepage,0,0,'R');
+        $pages ="Page ".$this->PageNo()." of {nb}";
+        $this->Cell(25,0,"Delivery Date: ".date("F j, Y"),0,0,'L');
+        $this->Cell(0,0,$pages,0,0,'R');
     }
 }
 
@@ -29,7 +30,7 @@ include('scripts/dbconn.php');
 
 $batch=$_GET['batch'];
 
-$mfest=$db->query("SELECT A.Rx_Number, B.Patient_Name,B.Wing,B.Room,D.Facility_Name,E.Drug_Name,E.NDC,A.Admin_Time,SUM(A.Quantity) AS Qty FROM Daily_History AS A INNER JOIN Patient AS B ON A.Patient_ID=B.Patient_Id INNER JOIN FGroup AS C ON B.Patient_Group = C.Group_Name INNER JOIN Facility AS D ON C.Facility_ID = D.Facility_ID INNER JOIN Drug AS E ON A.Drug_Code = E.Drug_Code WHERE Batch_Date = '".$batch."' GROUP BY B.Patient_Name, E.NDC, A.Admin_Time ORDER BY B.Patient_Name, A.Admin_Time");
+$mfest=$db->query("SELECT A.Rx_Number, B.Patient_Name,B.Wing,B.Room,D.Facility_Name,E.Drug_Name,E.NDC,A.Admin_Time,SUM(A.Quantity) AS Qty, A.Admin_Date, COUNT(A.Admin_Date) AS NumDays FROM Daily_History AS A INNER JOIN Patient AS B ON A.Patient_ID=B.Patient_Id INNER JOIN FGroup AS C ON B.Patient_Group = C.Group_Name INNER JOIN Facility AS D ON C.Facility_ID = D.Facility_ID INNER JOIN Drug AS E ON A.Drug_Code = E.Drug_Code WHERE Batch_Date = '".$batch."' GROUP BY B.Patient_Name, E.NDC, A.Admin_Time ORDER BY B.Patient_Name, A.Admin_Time");
 
 $pname = "";
 $proom = "";
@@ -72,6 +73,8 @@ while($rm=$mfest->fetch_object()){
        $pname=$rm->Patient_Name;
        $proom=$rm->Wing.$rm->Room;
        $fname=$rm->Facility_Name;
+       $firstday = date("m/d/Y",strtotime($rm->Admin_Date));
+       $lastday = date("m/d/Y",strtotime($rm->Admin_Date." + ".$rm->NumDays." days"));
        $pdf->AddPage();
         //patient header
         $pdf->SetFont($fontfam,'',14);
@@ -85,6 +88,7 @@ while($rm=$mfest->fetch_object()){
         $pdf->SetFont($fontfam,'B',14);
         $pdf->Cell(50,6,$fname,0,0,'L');
         $pdf->Ln(8);
+
         //Column labels
         $pdf->SetFont($fontfam,'',10);
         $pdf->Cell(5,5,"",0,0,'L');
@@ -95,6 +99,9 @@ while($rm=$mfest->fetch_object()){
         $pdf->Cell(20,5,"Received",0,1,'C');
         $pdf->Cell(0,0,"",'B',0,'C');
         $pdf->Ln(2);
+        $pdf->SetFont($fontfam,'',8);        
+        $pdf->cell(0,4,"Administration Dates: ".$firstday." to ".$lastday,0,0,'R');
+        $pdf->Ln(5);
         //Time header
         $curtime=$rm->Admin_Time;
         $pdf->SetFont($fontfam,'B',14);
