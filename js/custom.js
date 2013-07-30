@@ -80,13 +80,13 @@ function markdrug(drugid,drugname){
         url: "scripts/dnp_commit.php",
         dataType: "html",
         data: { drugid: drugid }
-    })
+    });
     drugjax.done(function(){
         $('#listprogress').show();
         dohoawork();
         var dst = drugname + ' was marked as Never Pack';
         addnotification('chgd','success','Drug Status',dst,3000);     
-    })
+    });
 };
 
 function markpt(patid,patname){
@@ -95,13 +95,13 @@ function markpt(patid,patname){
         url: "scripts/pnp_commit.php",
         dataType: "html",
         data: { pid: patid }
-    })
+    });
     drugjax.done(function(){
         $('#listprogress').show();
         dohoawork();
         var dst = patname + ' was marked as Never Pack';
         addnotification('chgp','success','Patient Status',dst,3000);     
-    })
+    });
 };
 
 function dohoawork(){
@@ -296,10 +296,10 @@ function fillSSdates(){
             if(html.length>0){
                 $('#warnbox').addClass("warn");
                 $('#warnicon').removeClass("icon-file").addClass("icon-warning-sign");
-                addnotification('ss','info','Start/Stop Dates','You have at least one Rx that starts or stops during your chosen dates.',5000)
+                addnotification('ss','info','Start/Stop Dates','You have at least one Rx that starts or stops during your chosen dates.',5000);
             }else{
                 $('#warnbox').removeClass("warn");
-                $('#warnicon').removeClass("icon-warning-sign").addClass("icon-file")
+                $('#warnicon').removeClass("icon-warning-sign").addClass("icon-file");
             }
             $('#ssdata').html(html);
         });

@@ -220,7 +220,15 @@
                 </div>
             </div> 
             <div class="tab-pane" id="history">
-                    
+                <div class="span2">
+                    <div class="tabbable tabs-left">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a href="#today" data-toggle="tab">Today</a></li>
+                            <li class><a href="#forever" data-toggle="tab">All-Time</a></li>
+                            <li class><a href="#thiscomputer" data-toggle="tab">This Computer<br>(Today)</a></li>
+                        </ul>
+                    </div>
+                </div>               
             </div> 
             <div class="tab-pane" id="usage">
                     
