@@ -20,7 +20,7 @@
         while($bpres=$rxbypatient->fetch(PDO::FETCH_OBJ)){
             echo "<div id=\"div".$bpres->Rx_ID."\"><h3><code>".$prnres->Patient_Group."</code> ".$prnres->Patient_Name." ".$bpres->Rx_Number."</h3><h5>".$bpres->Drug_Name."</h5><form id=\"f".$bpres->Rx_ID."\" autocomplete=\"off\" ><h6> Tablets per dose: ".$bpres->Sig_QuantityPerDose."</h6>";
             echo "<label>Number of Doses:</label><div class=\"pad4\"><input type=\"text\" id=\"".$bpres->Rx_ID."prnqty\" placeholder=\"Quantity\" autcomplete=\"off\" name=\"prnqty\"><br>";
-            echo "<button class=\"btn btn-success\" type=\"button\" onclick=\"packPRN('".$bpres->Rx_ID."','".$patientID."');\">Pack</button></div>";
+            echo "<button class=\"btn btn-success\" type=\"button\" onclick=\"packPRN('".$bpres->Rx_ID."','".$patientID."');\">Pack</button></div></div>";
             
         }
     }

@@ -63,6 +63,17 @@ function drugadmin(drugid){
     });
 };
 
+function patientadmin(patientid){
+    $.ajax({
+        type: "POST",
+        url: "scripts/pnp_verify.php",
+        dataType: "html",
+        data: { pid: patientid }
+    }).done(function(html){
+        $('#ptoptions').html(html);
+    });
+};
+
 function markdrug(drugid,drugname){
     var drugjax = $.ajax({
         type: "POST",
@@ -75,6 +86,21 @@ function markdrug(drugid,drugname){
         dohoawork();
         var dst = drugname + ' was marked as Never Pack';
         addnotification('chgd','success','Drug Status',dst,3000);     
+    })
+};
+
+function markpt(patid,patname){
+    var drugjax = $.ajax({
+        type: "POST",
+        url: "scripts/pnp_commit.php",
+        dataType: "html",
+        data: { pid: patid }
+    })
+    drugjax.done(function(){
+        $('#listprogress').show();
+        dohoawork();
+        var dst = patname + ' was marked as Never Pack';
+        addnotification('chgp','success','Patient Status',dst,3000);     
     })
 };
 

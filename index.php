@@ -30,7 +30,7 @@
                                 <li class="divider-vertical"></li>
                                 <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-book"></i> Reports<b class="caret"></b></a>
                                     <ul class="dropdown-menu">
-                                        <li class><a href="#manifests" data-toggle="pill"><i class="icon-list-alt"></i><i class="divider-vertical"></i>Manifests</a></li>
+                                        <li class><a href="#history" data-toggle="pill"><i class="icon-list-alt"></i><i class="divider-vertical"></i>History</a></li>
                                         <li class><a href="#usage" data-toggle="pill"><i class="icon-align-left"></i><i class="divider-vertical"></i>PacMed Usage</a></li>
                                     </ul>
                                 </li>
@@ -82,6 +82,7 @@
                         <div class="tab-pane active" id="export">
                             <div class="row-fluid">
                                 <div class="span12" id="exporteddata">
+                                    <button class="btn btn-primary" type="button" onclick="refreshexport();"><i class="icon-refresh icon-white"></i> Refresh</button>
                                     <div id="exportdata" class="listdiv">
                                         
                                     </div>
@@ -190,6 +191,20 @@
                     <button class="btn btn-danger" data-dismiss="modal" aria-hidden="true" id="closeimportbtn">Close</button>
                 </div>
             </div> 
+                <div class="modal hide fade" id="ptadmin" tabindex="-1" role="dialog" aria-labelledby="ptmodallabel" aria-hidden="true">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                     <h3 id="ptmodallabel">Change Patient Status</h3>
+                </div>
+                <div class="modal-body">
+                    <div id="ptoptions">
+                        
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-danger" data-dismiss="modal" aria-hidden="true" id="closeptbtn">Close</button>
+                </div>
+            </div> 
             <div class="modal hide fade" id="prnmodal" tabindex="-1" role="dialog" aria-labelledby="prnmodallabel" aria-hidden="true">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -204,7 +219,7 @@
                     <button class="btn btn-danger" data-dismiss="modal" aria-hidden="true" id="closeimportbtn">Close</button>
                 </div>
             </div> 
-            <div class="tab-pane" id="manifests">
+            <div class="tab-pane" id="history">
                     
             </div> 
             <div class="tab-pane" id="usage">
