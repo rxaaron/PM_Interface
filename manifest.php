@@ -30,7 +30,7 @@ include('scripts/dbconn.php');
 
 $batch=$_GET['batch'];
 
-$mfest=$db->query("SELECT A.Rx_Number, B.Patient_Name,B.Wing,B.Room,D.Facility_Name,E.Drug_Name,E.NDC,A.Admin_Time,SUM(A.Quantity) AS Qty, A.Admin_Date, COUNT(A.Admin_Date) AS NumDays FROM Daily_History AS A INNER JOIN Patient AS B ON A.Patient_ID=B.Patient_Id INNER JOIN FGroup AS C ON B.Patient_Group = C.Group_Name INNER JOIN Facility AS D ON C.Facility_ID = D.Facility_ID INNER JOIN Drug AS E ON A.Drug_Code = E.Drug_Code WHERE Batch_Date = '".$batch."' GROUP BY B.Patient_Name, E.NDC, A.Admin_Time ORDER BY B.Patient_Name, A.Admin_Time");
+$mfest=$db->query("SELECT A.Rx_Number, A.Bag_Type, B.Patient_Name,B.Wing,B.Room,D.Facility_Name,E.Drug_Name,E.NDC,A.Admin_Time,SUM(A.Quantity) AS Qty, A.Admin_Date, COUNT(A.Admin_Date) AS NumDays FROM Daily_History AS A INNER JOIN Patient AS B ON A.Patient_ID=B.Patient_Id INNER JOIN FGroup AS C ON B.Patient_Group = C.Group_Name INNER JOIN Facility AS D ON C.Facility_ID = D.Facility_ID INNER JOIN Drug AS E ON A.Drug_Code = E.Drug_Code WHERE Batch_Date = '".$batch."' GROUP BY B.Patient_Name, E.NDC, A.Admin_Time ORDER BY B.Patient_Name, A.Admin_Time");
 
 $pname = "";
 $proom = "";
@@ -55,8 +55,14 @@ while($rm=$mfest->fetch_object()){
         }else{
             //Time header
             $curtime=$rm->Admin_Time;
+            if($rm->Bag_Type==="P"){
+                $printtime="PRN";
+                $curtime="PRN";
+            }else{
+                $printtime=date("h:i A",strtotime($rm->Admin_Time));
+            }
             $pdf->SetFont($fontfam,'B',14);
-            $pdf->Cell(25,6,date("h:i A",strtotime($rm->Admin_Time)),0,0,'L');
+            $pdf->Cell(25,6,$printtime,0,0,'L');
             $pdf->Ln(7);
             //first Rx
             $pdf->SetFont($fontfam,'',12);
@@ -104,8 +110,14 @@ while($rm=$mfest->fetch_object()){
         $pdf->Ln(5);
         //Time header
         $curtime=$rm->Admin_Time;
+        if($rm->Bag_Type==="P"){
+            $printtime="PRN";
+            $curtime="PRN";
+        }else{
+            $printtime=date("h:i A",strtotime($rm->Admin_Time));
+        }
         $pdf->SetFont($fontfam,'B',14);
-        $pdf->Cell(25,6,date("h:i A",strtotime($rm->Admin_Time)),0,0,'L');
+        $pdf->Cell(25,6,$printtime,0,0,'L');
         $pdf->Ln(7);
         //first Rx
         $pdf->SetFont($fontfam,'',12);
