@@ -16,7 +16,7 @@
     $insrthelp=$dbh->prepare("INSERT INTO ".$_SESSION['prefix']."_HOA (Rx_Number,Drug_Name,Patient_Name,Instructions,Doctor, RPh) VALUES (:rxnumber2, :drugname2,:pname2, :instructions2, :doctor2, :rph2)");
     $rxpatient = $db->query("SELECT DISTINCT Patient_Name, Patient_Group FROM ".$_SESSION['prefix']."_Rx WHERE Pack = true");
     while($rxres=$rxpatient->fetch_object()){
-        
+
        $patid->execute(array(':ptname'=>$rxres->Patient_Name,':ptgroup'=>$rxres->Patient_Group));
        $rez=$patid->fetch(PDO::FETCH_OBJ);
        $patientID=$rez->Patient_ID;
@@ -24,17 +24,19 @@
         $rxbypatient->execute(array(':ptname2'=>$rxres->Patient_Name,':ptgroup2'=>$rxres->Patient_Group));
             
         while($bypatres=$rxbypatient->fetch(PDO::FETCH_OBJ)){
-            
+
             if($bypatres->HOA_ID != "PRN" AND $bypatres->HOA_ID != "RX" AND $bypatres->HOA_ID != "0"){
                 $curDate = strtotime($start);
+
                 if($bypatres->WarfDDI==true AND $bypatres->Medical_Record_Number==="W" AND $bypatres->Drug_Category==="WFDDI"){
                    $insrtexport->execute(array(':pid'=>$patientID,':tracker'=>$tracker,':drugcode'=>"WF_DDI",':admindate'=>date("Ymd",strtotime($curdate." + 2 days")),':admintime'=>"0800",':quantity'=>'1.00',':doctor'=>$bypatres->Doctor,':rxnumber'=>$bypatres->Rx_Number,':instructions'=>substr($bypatres->Line1." ".$bypatres->Line2." ".$bypatres->Line3." ".$bypatres->Line4." ".$bypatres->Line5." ".$bypatres->Line6." ".$bypatres->Line7." ".$bypatres->Line8,0,50),':bagtype'=>"M",':rph'=>$bypatres->RPH)); 
                 }
-                    
+
                 do{
-                
+
                     $gethoa->execute(array(':hoaid'=>$bypatres->HOA_ID));
                     while($hoarez=$gethoa->fetch(PDO::FETCH_OBJ)){
+
                         if(strtotime($bypatres->Rx_Start_Date)<=$curDate AND $curDate<=strtotime($bypatres->Rx_Stop_Date)){
                             if($curDate==strtotime($start)){
                            
