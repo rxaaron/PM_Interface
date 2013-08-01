@@ -140,7 +140,7 @@ function processrx(){
         alert('Please verify that Start Date, Stop Date, and CutOff Time all have valid entries.');
     };        
     proc.done(function(html){
-        alert(html);
+
         if($('#rmvadmin').is(":checked")){
             rmvAdminWindow();
         }

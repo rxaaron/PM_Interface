@@ -37,16 +37,16 @@
                     $test2->execute(array(':hoacode'=>$hoares->HOA_Code,':hoagroup'=>$hoares->Patient_Group));
                     $test3->execute(array(':hoacode'=>$hoares->HOA_Code));
                     if($data1=$test1->fetch(PDO::FETCH_OBJ)){
-                        echo "data1 = ".$data1->HOA_ID."  ".$hoares->Rx_ID."<br>";
+
                         //$data1=$test1->fetch(PDO::FETCH_OBJ);
                         $insrtHOA->execute(array(':hoaid'=>$data1->HOA_ID,':rxid'=>$hoares->Rx_ID));
                     }elseif($data2=$test2->fetch(PDO::FETCH_OBJ)){
-                        echo "data2 = ".$data2->HOA_ID."  ".$hoares->Patient_Group."<br>";
+
                         //$data2=$test2->fetch(PDO::FETCH_OBJ);
                         $insrtHOA->execute(array(':hoaid'=>$data2->HOA_ID,':rxid'=>$hoares->Rx_ID));
                     }elseif($data3=$test3->fetch(PDO::FETCH_OBJ)){
                         //$data3=$test3->fetch(PDO::FETCH_OBJ);
-                        echo "data3 = ".$data3->HOA_ID."  ".$hoares->Rx_ID."<br>";
+ 
                         $insrtHOA->execute(array(':hoaid'=>$data3->HOA_ID,':rxid'=>$hoares->Rx_ID));
                     }else{
                         $insrtHOA->execute(array(':hoaid'=>"0",':rxid'=>$hoares->Rx_ID));
