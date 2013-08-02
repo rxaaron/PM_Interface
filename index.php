@@ -82,7 +82,7 @@
                         <div class="tab-pane active" id="export">
                             <div class="row-fluid">
                                 <div class="span12" id="exporteddata">
-                                    <button class="btn btn-primary" type="button" onclick="refreshexport();"><i class="icon-refresh icon-white"></i> Refresh</button>
+                                    
                                     <div id="exportdata" class="listdiv">
                                         
                                     </div>
@@ -92,7 +92,7 @@
                         <div class="tab-pane" id="list">
                              <div class="row-fluid">
                                 <div class="span12" id="listdata">
-                                    <button class="btn btn-primary" type="button" onClick="refreshlist();"><i class="icon-refresh icon-white"></i> Refresh</button>
+                                    
                                     <div id="listprogress">
                                         <div class="progress progress-striped active">
                                             <div class="bar" id="listbar" style="width: 100%;">Building List</div>
@@ -107,7 +107,7 @@
                         <div class="tab-pane" id="startstop">
                             <div class="row-fluid">
                                 <div class="span12">
-                                    <button class="btn btn-primary" type="button" onclick="fillSSdates();"><i class="icon-refresh icon-white"></i> Refresh</button>
+                                    
                                 <div id="ssdata" class="listdiv">
                                     
                                 </div>
@@ -119,9 +119,9 @@
                 <div class="span1">
                     <div class="tabbable tabs-right">
                         <ul class="nav nav-tabs">
-                            <li class="active"><a href="#export" data-toggle="tab"><button class="btn">Orders Ready<br>For Export</button></a></li>
-                            <li class><a href="#list" data-toggle="tab"><button class="btn">View Listed<br>Orders</button></a></li>
-                            <li class><a href="#startstop" data-toggle="tab"><button class="btn">Start / Stop<br>Dates</button></a></li>
+                            <li class="active"><a href="#export" data-toggle="tab"><button class="btn" onClick="refreshexport();">Orders Ready<br>For Export</button></a></li>
+                            <li class><a href="#list" data-toggle="tab"><button class="btn" onClick="refreshlist();">View Listed<br>Orders</button></a></li>
+                            <li class><a href="#startstop" data-toggle="tab"><button class="btn" onClick="fillSSdates();">Start / Stop<br>Dates</button></a></li>
                         </ul>
                     </div>
 
@@ -223,12 +223,28 @@
                 <div class="span2">
                     <div class="tabbable tabs-left">
                         <ul class="nav nav-tabs">
-                            <li class="active"><a href="#today" data-toggle="tab">Today</a></li>
-                            <li class><a href="#forever" data-toggle="tab">All-Time</a></li>
-                            <li class><a href="#thiscomputer" data-toggle="tab">This Computer<br>(Today)</a></li>
+                            <li class="active"><a href="#today" data-toggle="tab" onClick="refreshtoday();">Today</a></li>
+                            <li class><a href="#forever" data-toggle="tab"  onClick="refreshalltime(1);">All-Time</a></li>
+                            <li class><a href="#bypatient" data-toggle="tab" onclick="refreshpatlist();">By Patient</a></li>
                         </ul>
                     </div>
-                </div>               
+                </div>
+                <div class="span10">
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="today">
+
+
+                        </div>
+                        <div class="tab-pane" id="forever">
+
+
+                        </div>
+                        <div class="tab-pane" id="bypatient">
+
+
+                        </div>
+                    </div>
+                </div>
             </div> 
             <div class="tab-pane" id="usage">
                     

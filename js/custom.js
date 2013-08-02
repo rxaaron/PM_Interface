@@ -337,3 +337,23 @@ function packPRN(rxid,pid){
         refreshexport();
     });
 };
+
+function refreshtoday(){
+
+};
+
+function refreshalltime(pagenum){
+    $.ajax({
+        url: "scripts/all_time_history.php",
+        type: "POST",
+        dataType: "html",
+        data: { page: pagenum }
+    }).done(function(html){
+        $('#forever').html(html);
+    });
+    
+};
+
+function refreshpatlist(){
+    
+};
